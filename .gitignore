@@ -1,4 +1,4 @@
-node_modules/
+锘縩ode_modules/
 dist/
 .env
 .env.local
@@ -83,7 +83,5 @@ sites/**/dist/
 # local git-filter-repo / embed python (do not commit)
 tools/
 
-
-# Cursor 本地 rules / skills（不随仓交付）
+# Cursor local rules/skills (do not commit)
 .cursor/
-
