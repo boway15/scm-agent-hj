@@ -66,6 +66,7 @@ $gitRm = @(
   "docs/reports/2026-feishu-plus-project-description.md",
   "docs/reports/scm-blueprint.html",
   "docs/reports/scm-feishu-ai-blueprint-report.md",
+  "apps/web/public/reports/scm-blueprint.html",
   "sites/blueprint-report",
   "apps/web/scripts/.hono-test",
   "apps/web/tmp-hono-test"
@@ -110,6 +111,7 @@ $localOnly = @(
   "sites/blueprint-report/dist",
   "docs/reports/scm-blueprint.html",
   "docs/reports/scm-feishu-ai-blueprint-report.md",
+  "apps/web/public/reports/scm-blueprint.html",
   "docs/samples/forecast-backtest",
   "cookies.txt",
   "-w",
