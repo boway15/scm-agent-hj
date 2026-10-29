@@ -122,7 +122,7 @@ CRON_SECRET=<随机32位以上>
 | 本文 | **新版本新建应用**（主流程） |
 | [miaoda-import-checklist.md](miaoda-import-checklist.md) | 完整验收、飞书 OAuth、Cron、演示 CSV |
 | [hono-app-checklist.md](../apps/web/miaoda/hono-app-checklist.md) | Hono 迁入与五大根因 |
-| [.cursor/skills/feishu-miaoda/SKILL.md](../.cursor/skills/feishu-miaoda/SKILL.md) | 避坑与架构说明 |
+| （本地）`.cursor/skills/feishu-miaoda/SKILL.md` | 避坑与架构说明（不随仓交付） |
 
 ---
 

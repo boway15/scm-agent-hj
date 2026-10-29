@@ -69,7 +69,8 @@ $gitRm = @(
   "apps/web/public/reports/scm-blueprint.html",
   "sites/blueprint-report",
   "apps/web/scripts/.hono-test",
-  "apps/web/tmp-hono-test"
+  "apps/web/tmp-hono-test",
+  ".cursor"
 )
 
 foreach ($item in $gitRm) {

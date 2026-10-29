@@ -488,4 +488,4 @@ PMC 计划上传时额外填写：计划名称、计划日期、交期、商家�
 - [apps/web/miaoda/MIAODA-SETUP.md](../apps/web/miaoda/MIAODA-SETUP.md) — 现场 5 步速查
 - [docs/prd/mvp-overview.md](prd/mvp-overview.md) — MVP 范围与迭代记录
 - [docs/samples/import/README.md](samples/import/README.md) — 演示 CSV 说明
-- [.cursor/skills/feishu-miaoda/SKILL.md](../.cursor/skills/feishu-miaoda/SKILL.md) — 妙搭架构与避坑
+- （本地）`.cursor/skills/feishu-miaoda/SKILL.md` — 妙搭架构与避坑（不随仓交付）

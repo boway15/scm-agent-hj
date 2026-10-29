@@ -49,21 +49,9 @@ pnpm samples:demo                              # 确保合成演示 CSV 存在
 2. 使用 `docs/samples/demo/` 合成 CSV（或自家 ERP/飞书脱敏导出）经 **数据中心 → 数据导入** 上传  
 3. FOB 模块可用 `docs/samples/fob/` 下合成 xlsx 做分摊联调  
 
-## Cursor Skills 说明
+## Cursor / Agent 说明
 
-仓库内 [`.cursor/skills/`](../../.cursor/skills/) 可随仓交付，便于二次开发：
-
-| Skill | 用途 |
-|-------|------|
-| `@scm-domain` | 跨境供应链领域概念 |
-| `@scm-design` | UI / Tailwind 规范 |
-| `@miaoda-prd` | 结构化 PRD（面向自建 Docker） |
-| `@dify-agent` | Dify 与本系统集成 |
-| `@dify-cs-email-draft` | 客服质检工作流 DSL |
-| `@feishu-aily-agent` | 飞书 aily HTTP 集成 |
-| `@feishu-miaoda` | **已归档**，默认忽略 |
-
-规则：用户明确「对外共享/脱敏」时可 `@` [`.cursor/rules/external-share.mdc`](../../.cursor/rules/external-share.mdc)。
+`.cursor/rules`、`.cursor/skills` **不随仓库交付**（已在 `.gitignore`）。接收方二次开发请自行维护 Cursor 配置；业务与部署以本目录文档及 `README.md` 为准。
 
 ## 许可与责任
 

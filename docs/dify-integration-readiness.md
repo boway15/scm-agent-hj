@@ -102,4 +102,4 @@ Dify 应用需在控制台声明同名输入变量。
 - API Key 仅后端可见，ZIP 不含 `.env`
 - `zip:miaoda` 会将 `server/integrations/dify*.ts` 同步到 `server/hono-app/`
 
-详细 API 见 [`.cursor/skills/dify-agent/SKILL.md`](../.cursor/skills/dify-agent/SKILL.md)
+详细 API 见仓库内 `docs/dify/`（本地 Cursor Skill `dify-agent` 不随仓交付）

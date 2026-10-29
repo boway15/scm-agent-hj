@@ -83,3 +83,7 @@ sites/**/dist/
 # local git-filter-repo / embed python (do not commit)
 tools/
 
+
+# Cursor 本地 rules / skills（不随仓交付）
+.cursor/
+

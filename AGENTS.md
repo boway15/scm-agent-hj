@@ -1,10 +1,11 @@
 # 多 Agent 角色定义（精简）
 
-跨境电商供应链智能体平台（**自建 Docker 部署**）。**完整角色约束见 `docs/agent-roles-detail.md`**；开发时 `@` 对应 Skill（`miaoda-prd`、`scm-domain`、`scm-design` 等）。
+跨境电商供应链智能体平台（**自建 Docker 部署**）。**完整角色约束见 `docs/agent-roles-detail.md`**。
 
 > **部署（内部）**：日常发布以 `docs/local-server-release-sop.md` 为准。  
 > **部署（对外）**：交付其他公司见 `docs/external-share/README.md`（脱敏脚本 + 部署/业务说明）。  
-> **妙搭**：ZIP / CJS 双轨已停用；仅在用户明确要求时查阅 `feishu-miaoda` Skill。
+> **妙搭**：ZIP / CJS 双轨已停用。  
+> **Cursor**：`.cursor/rules` 与 `.cursor/skills` 仅本地使用，**勿提交、勿随仓交付**。
 
 ## 角色总览
 
@@ -27,9 +28,9 @@
                                     业务 Agent → aily / Dify 工作流 → HTTP 调用自建 API
 ```
 
-## 在 Cursor 中使用
+## 在 Cursor 中使用（本地）
 
-1. 开发前 `@` 引用对应 Skill，勿依赖全局常驻长文档
+1. 本地维护 `.cursor/skills`，开发前按需 `@` 引用；勿把该目录 push 到远程
 2. 按角色切换：「以 architect 角色评审以下表结构」
 3. 发布前用 `qa` 检查清单验收（见 `docs/agent-roles-detail.md`）
 4. **默认不要**为妙搭 ZIP / `hono-app` CJS 做适配；生产入口是 `apps/web/server` + Compose
