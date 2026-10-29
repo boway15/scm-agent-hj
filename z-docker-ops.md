@@ -3,7 +3,7 @@
 > **内部运维参考**：对外部署见 [docs/external-share/deployment-guide.md](docs/external-share/deployment-guide.md)。
 
 
-项目根目录：`d:\Docker\project\scm-agent`  
+项目根目录：`d:\Docker\project\scm-agent-hj`  
 访问地址：http://localhost:8081（需邮箱登录，默认超管 `admin@scm.local` / `admin123456`）
 
 ### 局域网访问

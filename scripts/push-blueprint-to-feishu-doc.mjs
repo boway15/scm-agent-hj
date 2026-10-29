@@ -4,21 +4,32 @@
  * 【内部运维】仅内部推送；对外共享勿配置 FEISHU 凭证运行本脚本。
  * Usage: node --env-file=.env scripts/push-blueprint-to-feishu-doc.mjs
  *
- * 需要：FEISHU_APP_ID、FEISHU_APP_SECRET、FEISHU_BITABLE_BLUEPRINT_APP_TOKEN
+ * 需要：FEISHU_APP_ID、FEISHU_APP_SECRET、FEISHU_BITABLE_BLUEPRINT_APP_TOKEN、
+ *   FEISHU_BITABLE_TABLE_BLUEPRINT_PROJECT；可选 FEISHU_BLUEPRINT_REPORT_MD（报告 md 路径）
  * 可选：FEISHU_BASE_WEB_URL（默认 https://example.feishu.cn）
  */
-import { readFileSync } from 'node:fs';
+import { existsSync, readFileSync } from 'node:fs';
 import { fileURLToPath } from 'node:url';
 import { dirname, join } from 'node:path';
 
 const FEISHU_BASE = 'https://open.feishu.cn/open-apis';
 const APP_TOKEN = (process.env.FEISHU_BITABLE_BLUEPRINT_APP_TOKEN || '').trim();
+const PROJ_TABLE_ID = (process.env.FEISHU_BITABLE_TABLE_BLUEPRINT_PROJECT || '').trim();
 const FEISHU_BASE_WEB_URL = (process.env.FEISHU_BASE_WEB_URL || 'https://example.feishu.cn').replace(/\/$/, '');
 const DOC_TITLE = '数智驱动 · 计划—采购—物流—运营主轴平台（scm-agent 蓝图报告）';
-const REPORT_PATH = join(dirname(fileURLToPath(import.meta.url)), '../docs/reports/scm-feishu-ai-blueprint-report.md');
+const REPORT_PATH = (process.env.FEISHU_BLUEPRINT_REPORT_MD || '').trim()
+  || join(dirname(fileURLToPath(import.meta.url)), '../docs/reports/scm-feishu-ai-blueprint-report.md');
 
 if (!APP_TOKEN) {
   console.error('缺少 FEISHU_BITABLE_BLUEPRINT_APP_TOKEN，已中止（勿将真实 Base token 写回仓库）。');
+  process.exit(1);
+}
+if (!PROJ_TABLE_ID) {
+  console.error('缺少 FEISHU_BITABLE_TABLE_BLUEPRINT_PROJECT，已中止（勿将真实 table_id 写回仓库）。');
+  process.exit(1);
+}
+if (!existsSync(REPORT_PATH)) {
+  console.error(`蓝图报告 md 不存在: ${REPORT_PATH}（仓库已移除对外交付版；请设 FEISHU_BLUEPRINT_REPORT_MD 指向本地副本）。`);
   process.exit(1);
 }
 
@@ -160,7 +171,7 @@ async function appendBlocks(token, documentId, blocks) {
 }
 
 async function updateProjectDocLink(token, docUrl) {
-  const projTableId = 'tblVu4jnB3UiScds';
+  const projTableId = PROJ_TABLE_ID;
   let pageToken;
   let targetId;
   do {

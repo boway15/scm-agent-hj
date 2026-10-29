@@ -26,7 +26,7 @@
 | `cs-reply-quality.yml` | 评估客服英文邮件回复质量（总分 + 四维度 + 评语） |
 | `cs-reply-quality-setup.md` | 导入步骤、API Key、试运行与对接约定 |
 
-样例数据：`docs/samples/cs/tengfei近3个月买家消息.xlsx`
+样例数据：请自备**脱敏**客服 Excel（列见 [cs-reply-quality-setup.md](./cs-reply-quality-setup.md)）；导入说明见 [`docs/samples/import/README.md`](../../samples/import/README.md)。仓库不再附带真实客服导出。
 
 ### 导入步骤
 

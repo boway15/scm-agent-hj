@@ -4,16 +4,22 @@
  * 【内部运维】仅内部推送；对外共享勿配置 FEISHU 凭证运行本脚本。
  * Usage: node --env-file=.env scripts/push-blueprint-to-feishu.mjs
  *
- * 需要环境变量：FEISHU_APP_ID、FEISHU_APP_SECRET、FEISHU_BITABLE_BLUEPRINT_APP_TOKEN
+ * 需要环境变量：FEISHU_APP_ID、FEISHU_APP_SECRET、FEISHU_BITABLE_BLUEPRINT_APP_TOKEN、
+ *   FEISHU_BITABLE_TABLE_BLUEPRINT_PROJECT（项目汇总表 table_id）
  * 可选：FEISHU_BASE_WEB_URL（默认 https://example.feishu.cn）
  */
 const FEISHU_BASE = 'https://open.feishu.cn/open-apis';
 const APP_TOKEN = (process.env.FEISHU_BITABLE_BLUEPRINT_APP_TOKEN || '').trim();
+const PROJ_TABLE_ID = (process.env.FEISHU_BITABLE_TABLE_BLUEPRINT_PROJECT || '').trim();
 const FEISHU_BASE_WEB_URL = (process.env.FEISHU_BASE_WEB_URL || 'https://example.feishu.cn').replace(/\/$/, '');
 const TABLE_NAME = 'scm-agent 蓝图报告';
 
 if (!APP_TOKEN) {
   console.error('缺少 FEISHU_BITABLE_BLUEPRINT_APP_TOKEN，已中止（勿将真实 Base token 写回仓库）。');
+  process.exit(1);
+}
+if (!PROJ_TABLE_ID) {
+  console.error('缺少 FEISHU_BITABLE_TABLE_BLUEPRINT_PROJECT，已中止（勿将真实 table_id 写回仓库）。');
   process.exit(1);
 }
 
@@ -519,7 +525,7 @@ async function batchCreate(token, tableId, records) {
 }
 
 async function addProjectRecord(token) {
-  const projTableId = 'tblVu4jnB3UiScds';
+  const projTableId = PROJ_TABLE_ID;
   const ids = await listAllRecordIds(token, projTableId);
   // skip if project already exists
   let pageToken;

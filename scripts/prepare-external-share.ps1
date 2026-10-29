@@ -63,7 +63,12 @@ $gitRm = @(
   "docs/samples/import-fob/导出截单清单数据导出_202607150908.xlsx",
   "docs/samples/import-fob/库存表-SKU库存周转情况查询-明细6a4227ef43084ca969e19dfe.xlsx",
   "docs/reports/2026-feishu-plus-contest-entry.md",
-  "docs/reports/2026-feishu-plus-project-description.md"
+  "docs/reports/2026-feishu-plus-project-description.md",
+  "docs/reports/scm-blueprint.html",
+  "docs/reports/scm-feishu-ai-blueprint-report.md",
+  "sites/blueprint-report",
+  "apps/web/scripts/.hono-test",
+  "apps/web/tmp-hono-test"
 )
 
 foreach ($item in $gitRm) {
@@ -98,9 +103,13 @@ $localOnly = @(
   "apps/web/docs",
   "apps/web/apps",
   "apps/web/tmp-hono-test",
+  "apps/web/scripts/.hono-test",
   "apps/web/scm-agent-miaoda.zip",
+  "sites/blueprint-report",
   "sites/blueprint-report/node_modules",
   "sites/blueprint-report/dist",
+  "docs/reports/scm-blueprint.html",
+  "docs/reports/scm-feishu-ai-blueprint-report.md",
   "docs/samples/forecast-backtest",
   "cookies.txt",
   "-w",
