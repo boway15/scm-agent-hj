@@ -48,6 +48,17 @@ git push gitlab --tags
 
 或：`.\scripts\git-push-dual.ps1 main -Tags`
 
+### 历史瘦身后（force push）
+
+若 GitLab 的 `main` **受保护、禁止 force push**，瘦身后的干净历史可能在分支 `main-rewritten`（与 GitHub `main` 同 commit）。运维可：
+
+1. 在 GitLab 项目设置中临时允许 Maintainer force push `main`，再执行  
+   `git push --force-with-lease gitlab main`；或  
+2. 将默认分支改为 `main-rewritten` / 删除旧 `main` 后把 `main-rewritten` 重命名为 `main`；或  
+3. 直接 `git clone -b main-rewritten <gitlab-url>` 部署。
+
+已 clone 旧 `main` 的同事需 **重新 clone** 或 `git fetch` 后 `reset --hard` 到新 SHA（旧大文件 blob 仅存在于本地未 gc 的备份分支）。
+
 ---
 
 ## 二、交付物（给运维的三件套）
