@@ -1,4 +1,4 @@
-# [家具/创新]_大件备货·待供应商确认超2天
+﻿# [家具/创新]_大件备货·待供应商确认超2天
 
 从飞书多维表格 **大件备货申请** 拉取「待供应商确认」且**超 2 天（大前天及之前）**的记录，由**采购跟进**催办，推送飞书群机器人。
 
@@ -16,7 +16,7 @@
 | 推送格式 | 红色卡片 **待供应商确认 · 超2天**；正文含「采购跟进」 |
 | 字数限制 | 单条 **≤4000 字**，超出自动拆分 |
 | 拆条标注 | 第 2 条起标题带 `(续2)`、`(续3)`… |
-| 查看明细 | [超2日视图](https://chinabestwo.feishu.cn/base/HPJzbHdPea7elSs92T8c31BTnxe?table=tbl7H8F6rc2xeFGf&view=vewLM617rt) |
+| 查看明细 | [超2日视图](https://example.feishu.cn/base/bascnXXXXXXXX?table=tblAAAAAAAA&view=vewZZZZZZZZ) |
 
 ### 消息示例
 
@@ -28,7 +28,7 @@
 
 **CZHD** 68条
 
-[查看明细](https://chinabestwo.feishu.cn/base/HPJzbHdPea7elSs92T8c31BTnxe?table=tbl7H8F6rc2xeFGf&view=vewLM617rt)
+[查看明细](https://example.feishu.cn/base/bascnXXXXXXXX?table=tblAAAAAAAA&view=vewZZZZZZZZ)
 ```
 
 拆条后续篇标题示例：`**大件备货申请·待供应商确认超2天 (续2)**`；元信息（总条数/供应商数）与明细链接每条重复。
@@ -58,8 +58,8 @@
 |------|:----:|------|
 | `FEISHU_APP_ID` | ✓ | 飞书 App ID（`cli_` 开头） |
 | `FEISHU_APP_SECRET` | ✓ | 飞书 App Secret |
-| `FEISHU_APP_TOKEN` | ✓ | 默认 `HPJzbHdPea7elSs92T8c31BTnxe` |
-| `FEISHU_TABLE_ID` | ✓ | 默认 `tbl7H8F6rc2xeFGf` |
+| `FEISHU_APP_TOKEN` | ✓ | 默认 `bascnXXXXXXXX` |
+| `FEISHU_TABLE_ID` | ✓ | 默认 `tblAAAAAAAA` |
 | `FEISHU_BOT_WEBHOOK_URL` | ✓ | 飞书自定义机器人 Webhook 完整 URL |
 | `DAYS_THRESHOLD` | — | 默认 `2`（不计今天；今天 7/17 → 统计 7/14 及之前） |
 

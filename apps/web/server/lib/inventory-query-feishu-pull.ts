@@ -12,9 +12,7 @@ import {
 } from './inventory-query-snapshot.js';
 import { syncCommercialStatusFromInventoryQuerySnapshot } from './commercial-status-sync.js';
 
-/** 与库存总览同一 Base 下的「SKU库存周转情况查询-明细」表；可用 env 覆盖 */
-export const DEFAULT_INVENTORY_QUERY_TABLE_ID = 'tblubb08s6pe6DXI';
-
+/** 须配置 FEISHU_BITABLE_TABLE_INVENTORY_QUERY；无默认生产表 ID */
 export function getInventoryQueryBitableConfig(): {
   configured: boolean;
   appToken?: string;
@@ -22,9 +20,7 @@ export function getInventoryQueryBitableConfig(): {
 } {
   // 与 inventory_turnover 相同：优先采购 Base token，否则通用 APP_TOKEN
   const appToken = getBitableAppToken('inventory_turnover');
-  const tableId =
-    process.env.FEISHU_BITABLE_TABLE_INVENTORY_QUERY?.trim() ||
-    DEFAULT_INVENTORY_QUERY_TABLE_ID;
+  const tableId = process.env.FEISHU_BITABLE_TABLE_INVENTORY_QUERY?.trim() || undefined;
   return {
     configured: Boolean(appToken && tableId),
     appToken,

@@ -1,35 +1,50 @@
-# 数据导入示例文件
+# 数据导入说明（对外版）
 
-**数据中心 → 数据导入**（`/data/import`）请使用业务真实导出文件，勿再使用已移除的家具演示 CSV。
+**数据中心 → 数据导入**（`/data/import`）请使用贵司 ERP / 飞书导出的**脱敏**文件，或仓库内合成演示样例。
 
-## 推荐样例（与生产格式一致）
+## 推荐：合成演示包
 
 | 导入类型 | 样例文件 | 说明 |
 |----------|----------|------|
-| 库存盘点 | `docs/samples/import-fob/库存表-SKU库存周转情况查询-明细*.xlsx` | SKU 库存周转宽表，约 5500 行，**上传文件**导入 |
-| 销量历史（日） | `docs/samples/xiaoshou/产品销售报表-每日*.csv` | xiaoshou 日销量宽表 |
-| 销量历史（月） | `docs/samples/xiaoshou/产品销售报表-每月*.csv` 或 `docs/samples/import-fob/产品销售报表-每月*.xlsx` | SKU 月销量宽表（可选，与日表同时上传） |
+| SKU 主数据 | [`../demo/01-skus.csv`](../demo/01-skus.csv) | 5 个 `DEMO-SKU-*` |
+| 销量历史（日） | [`../demo/02-sales-daily-wide.csv`](../demo/02-sales-daily-wide.csv) | xiaoshou 日销量宽表 |
+| 库存盘点（简易） | [`../demo/03-inventory-simple.csv`](../demo/03-inventory-simple.csv) | 列式库存，非飞书周转宽表 |
+| FOB 分账 | [`../fob/`](../fob/README.md) | 合成柜号 xlsx，可联调分摊 |
 
-## 导入类型说明
+重新生成：`pnpm samples:demo` / `pnpm samples:fob`。详见 [`../demo/README.md`](../demo/README.md)。
+
+## 导入类型
 
 | 类型 | 格式 | 备注 |
 |------|------|------|
-| SKU 主数据 | CSV 列式 | 支持标准 9 位 / legacy 编码（如 `DJ502313_34`） |
-| 库存盘点 | CSV 或 xlsx | 大表自动后台导入，在页面查看批次进度 |
-| 销量历史 | **仅** xiaoshou 宽表 | 不支持 `sku_code,sale_date,qty_sold` 窄表 |
-| 销量预测 | 月度日均宽表 | 与飞书表结构一致 |
+| SKU 主数据 | CSV 列式 | 支持标准 9 位 / legacy 编码 |
+| 库存盘点 | CSV 或 xlsx | 简易列式或库存周转宽表；大表可走后台批次 |
+| 销量历史 | xiaoshou **宽表** CSV/xlsx | 不支持 `sku_code,sale_date,qty_sold` 窄表 |
+| 销量预测 | 月度日均宽表 | 与飞书表结构一致时可互导 |
 | 库存策略 | CSV | 需 SKU 已存在 |
 | 供应商/工厂 | CSV | `merchant_code` 等 |
 | 航线周期 | CSV | 更新已有 `warehouse_code` 交期 |
 | 下单计划 | CSV + 页面填商家 | PMC 计划行 |
 
-## 已移除
+## 建议顺序
 
-- **合规属性导入**（`compliance`）：模块已下线，无对应导入入口
-- **窄表销量 CSV**（`sku_code,sale_date,qty_sold`）：后端已拒绝，请改用 xiaoshou 宽表
+1. SKU 主数据（或库存周转宽表自动补全部分字段）
+2. 销量日宽表
+3. 库存盘点 / 库存策略 / 销量预测 / PMC 计划等按需导入
 
-## 建议导入顺序
+## FOB 头程分摊联调
 
-1. 库存周转 xlsx（自动补全 SKU 主数据字段）
-2. 销量日/月宽表 CSV
-3. 库存策略、销量预测、PMC 计划等按需导入
+不含真实截单数据。可使用 **合成样例**：
+
+- 见 [../fob/README.md](../fob/README.md)
+- 模板 xlsx：`docs/samples/import-fob/*模板.xlsx`
+
+## 飞书一键拉取
+
+配置 `FEISHU_BITABLE_*` 后，导入中心可改为从多维表格拉取，字段映射见 [feishu-bitable-sync.md](../../feishu-bitable-sync.md)。
+
+## 已移除能力
+
+- **合规属性导入**（`compliance`）：模块已下线
+- **窄表销量 CSV**：后端已拒绝，请改用宽表
+- **仓库内真实业务 CSV/xlsx**：已删除；请勿再提交 `docs/samples/xiaoshou/` 等目录

@@ -1,4 +1,4 @@
-# 飞书妙搭（秒搭）导入清单
+﻿# 飞书妙搭（秒搭）导入清单
 
 > **状态：已停用（2026-07-24）** — 本仓库**不再对接妙搭**，日常发布见 [local-server-release-sop.md](./local-server-release-sop.md)。  
 > 决策记录：[superpowers/specs/2026-07-24-de-miaoda-docs-baseline-design.md](./superpowers/specs/2026-07-24-de-miaoda-docs-baseline-design.md)  
@@ -195,9 +195,9 @@ node -e 'import("./dist/server/hono-app/index.js").then(m=>console.log("OK", !!m
 | `FEISHU_OAUTH_REDIRECT_URI` | 正式必填 | `{APP_BASE_URL}/api/auth/feishu/callback` | |
 | `FEISHU_ALERT_CHAT_ID` | — | 群 chat_id | 可选（资讯模块不做群推送） |
 | `FEISHU_BITABLE_APP_TOKEN` | 资讯必填 | 多维表格 app_token | 与旧资讯表可同 app |
-| `FEISHU_BITABLE_PROCUREMENT_APP_TOKEN` | 库存/采购建议 | `HPJzbHdPea7elSs92T8c31BTnxe` | 采购+库存周转同一 Base 时优先 |
-| `FEISHU_BITABLE_TABLE_INVENTORY` | 库存总览建议 | `tblwvSHbqJ3szugE` | SKU周转相关信息 |
-| `FEISHU_BITABLE_TABLE_INVENTORY_QUERY` | 库存查询（可选，默认 `tblubb08s6pe6DXI`） | `tblubb08s6pe6DXI` | SKU库存周转情况查询-明细（分仓）；与总览同 Base/同应用 |
+| `FEISHU_BITABLE_PROCUREMENT_APP_TOKEN` | 库存/采购建议 | `bascnXXXXXXXX` | 采购+库存周转同一 Base 时优先 |
+| `FEISHU_BITABLE_TABLE_INVENTORY` | 库存总览建议 | `tblZZZZZZZZ` | SKU周转相关信息 |
+| `FEISHU_BITABLE_TABLE_INVENTORY_QUERY` | 库存查询（可选，默认 `tblYYYYYYYY`） | `tblYYYYYYYY` | SKU库存周转情况查询-明细（分仓）；与总览同 Base/同应用 |
 | `FEISHU_BITABLE_TABLE_NEWS_INTEL` | — | 旧表 table_id | **仅保留历史，禁止新写入** |
 | `FEISHU_BITABLE_TABLE_NEWS_INTEL_V2` | 资讯必填 | 新「跨境资讯总表」table_id | 采集只写此表 |
 | `NEWS_INTEL_ENABLED` | — | `true` | 设为 `false` 可关闭采集 |

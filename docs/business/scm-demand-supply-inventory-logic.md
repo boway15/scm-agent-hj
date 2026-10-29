@@ -1,4 +1,4 @@
-# 需求 · 供应 · 库存 业务与系统逻辑说明
+﻿# 需求 · 供应 · 库存 业务与系统逻辑说明
 
 > 版本：2026-09-29 ｜ 依据：当前工作区代码（`packages/db/src/schema`、`apps/web/server`、`apps/web/src`）与 `docs/prd`、`docs/superpowers/specs`。  
 > SKU 库存规划页每个可见字段的取值与算法见 **§3.8**。
@@ -401,7 +401,7 @@ flowchart TB
 
 | 任务 | 时间 | 规则 | 输出 |
 |------|------|------|------|
-| 全链库存拉取 | 每天 06:00 | `pullAndPublishProcurementOpsFromFeishu` | 全链库存日快照（飞书 `tblWUnYLwD8UATAS`） |
+| 全链库存拉取 | 每天 06:00 | `pullAndPublishProcurementOpsFromFeishu` | 全链库存日快照（飞书 `tblXXXXXXXX`） |
 | 库存查询拉取 | 每天 07:20 | `pullAndPublishInventoryQueryFromFeishu` | 查询日快照 |
 | 库存周转拉取 | 每天 07:40 | `executeBitableSync('inventory_turnover')`；有错误则**不发布**当日快照（`assertSnapshotPublishable`） | `inventory_records`、SKU `encoding_meta`、总览日快照 |
 | 影子长表构建 | 每日流水线内（数据问题扫描前） | `buildWarehouseStockFacts` | `warehouse_stock_facts`：SKU×仓×状态；**默认不写 `inventory_records`、不驱动补货** |

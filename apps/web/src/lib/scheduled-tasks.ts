@@ -15,7 +15,7 @@ export const SCHEDULED_TASKS: ScheduledTask[] = [
     path: '/api/tasks/procurement-ops-pull',
     cron: '0 6 * * *',
     cronLabel: '每天 06:00',
-    description: '从飞书多维表格同步全链库存日快照（tblWUnYLwD8UATAS）',
+    description: '从飞书多维表格同步全链库存日快照（需 FEISHU_BITABLE_TABLE_PROCUREMENT_OPS）',
   },
   {
     id: 'stock_alert',

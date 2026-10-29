@@ -1,11 +1,14 @@
-# 本地 Docker 运维速查
+﻿# 本地 Docker 运维速查
+
+> **内部运维参考**：对外部署见 [docs/external-share/deployment-guide.md](docs/external-share/deployment-guide.md)。
+
 
 项目根目录：`d:\Docker\project\scm-agent`  
 访问地址：http://localhost:8081（需邮箱登录，默认超管 `admin@scm.local` / `admin123456`）
 
 ### 局域网访问
 
-同网段其他设备可用 **本机局域网 IP** 访问，例如 `http://172.16.5.11:8081`（IP 以 `ipconfig` 中「以太网 / WLAN」的 IPv4 为准）。
+同网段其他设备可用 **本机局域网 IP** 访问，例如 `http://192.168.1.10:8081`（IP 以 `ipconfig` 中「以太网 / WLAN」的 IPv4 为准）。
 
 | 项 | 说明 |
 |----|------|
@@ -17,7 +20,7 @@
 | 定时任务 | Compose 服务 `cron`（内网 `http://web:8081`）；停调度：`docker compose stop cron` |
 
 > **本地服务器版发布 SOP（日常更新/回滚/备份）**：见 [docs/local-server-release-sop.md](docs/local-server-release-sop.md)  
-> **全新专用机安装与迁移（Win11 + Docker + cloudflared + al6s.cn）**：见 [docs/dedicated-host-setup-migration.md](docs/dedicated-host-setup-migration.md)  
+> **全新专用机安装与迁移（Win11 + Docker + cloudflared + example.com）**：见 [docs/dedicated-host-setup-migration.md](docs/dedicated-host-setup-migration.md)  
 > **服务器本地部署清单（推荐，不依赖 SSH）**：见 [docs/dedicated-host-server-checklist.md](docs/dedicated-host-server-checklist.md)  
 > Tunnel 运维详解：[docs/win11-cloudflare-tunnel-deploy.md](docs/win11-cloudflare-tunnel-deploy.md)
 

@@ -1,4 +1,4 @@
-app:
+﻿app:
   description: 【超1天】待供应商确认，采购跟进。筛选前天当天仍未确认的大件备货申请（与超2天互斥），按供应商汇总后推送飞书。
   icon: 🧾
   icon_background: '#FFF7E6'
@@ -34,7 +34,7 @@ workflow:
     selector:
     - env
     - FEISHU_APP_TOKEN
-    value: HPJzbHdPea7elSs92T8c31BTnxe
+    value: YOUR_BITABLE_APP_TOKEN
     value_type: string
   - description: 大件备货申请 table_id
     id: d4e5f6a7-b8c9-0123-def0-234567890123
@@ -42,7 +42,7 @@ workflow:
     selector:
     - env
     - FEISHU_TABLE_ID
-    value: tbl7H8F6rc2xeFGf
+    value: tblAAAAAAAA
     value_type: string
   - description: 飞书自定义机器人 Webhook 完整地址
     id: e5f6a7b8-c9d0-1234-ef01-345678901234
@@ -434,7 +434,7 @@ workflow:
           max_write_timeout: 30
         title: 查询飞书多维表格
         type: http-request
-        url: https://open.feishu.cn/open-apis/bitable/v1/apps/HPJzbHdPea7elSs92T8c31BTnxe/tables/tbl7H8F6rc2xeFGf/records/search
+        url: https://open.feishu.cn/open-apis/bitable/v1/apps/YOUR_BITABLE_APP_TOKEN/tables/tblAAAAAAAA/records/search
         variables: []
       height: 246
       id: feishu_list_records
@@ -555,7 +555,7 @@ workflow:
       type: custom
       width: 242
     - data:
-        code: "import json\nfrom collections import defaultdict\n\nMAX_CHARS = 4000\nBITABLE_URL = \"https://chinabestwo.feishu.cn/base/HPJzbHdPea7elSs92T8c31BTnxe?table=tbl7H8F6rc2xeFGf&view=vewZxNTnEj\"\nFOOTER = f\"\\n\\n[查看明细]({BITABLE_URL})\"\nTITLE_PREFIX = \"大件备货申请·待供应商确认\"\n\n\ndef build_supplier_block(supplier: str, count: int) -> str:\n    return f\"**{supplier}** {count}条\"\n\n\ndef make_header(\n    days_threshold: float,\n    matched_count: int,\n    supplier_count: int,\n    now_text: str,\n    part_index: int,\n) -> str:\n    days = int(days_threshold or 1)\n    title = f\"{TITLE_PREFIX}超{days}天\"\n    if part_index > 1:\n        title = f\"{title} (续{part_index})\"\n    meta = f\"采购跟进 · 共 {matched_count} 条 / {supplier_count} 家供应商\"\n    if now_text:\n        meta += f\"，生成时间：{now_text.strip()}\"\n    return f\"**{title}**\\n{meta}\"\n\n\ndef split_messages(blocks: list, make_hdr, max_chars: int = MAX_CHARS):\n    if not blocks:\n        return []\n    body_limit = max_chars - len(FOOTER)\n    if body_limit < 200:\n        body_limit = max_chars\n\n    messages = []\n    part_index = 1\n    header = make_hdr(part_index)\n    current = header\n\n    def finalize():\n        nonlocal current, part_index, header\n        messages.append((current + FOOTER).strip())\n        part_index += 1\n        header = make_hdr(part_index)\n        current = header\n\n    for block in blocks:\n        candidate = f\"{current}\\n\\n{block}\"\n        if len(candidate) <= body_limit:\n            current = candidate\n            continue\n        if current != header:\n            finalize()\n        current = f\"{header}\\n\\n{block}\"\n    if current and current != header:\n        messages.append((current + FOOTER).strip())\n    return messages\n\n\ndef main(rows_json: str, days_threshold: float, now_text: str = \"\") -> dict:\n    rows = json.loads(rows_json or \"[]\")\n    groups = defaultdict(int)\n    order = []\n    for row in rows:\n        supplier = (row.get(\"供应商简称\") or \"未知供应商\").strip()\n        if supplier not in groups:\n            groups[supplier] = 0\n            order.append(supplier)\n        groups[supplier] += 1\n\n    blocks = [build_supplier_block(s, groups[s]) for s in order if groups[s]]\n    matched_count = len(rows)\n    supplier_count = len([s for s in order if groups[s]])\n\n    def make_hdr(part_index: int) -> str:\n        return make_header(\n            days_threshold, matched_count, supplier_count, now_text, part_index\n        )\n\n    messages = split_messages(blocks, make_hdr, MAX_CHARS)\n    push_meta = [{\"supplier\": s, \"count\": groups[s]} for s in order if groups[s]]\n\n    return {\n        \"push_messages_json\": json.dumps(messages, ensure_ascii=False),\n        \"push_meta\": json.dumps(push_meta, ensure_ascii=False),\n        \"supplier_count\": supplier_count,\n        \"message_count\": len(messages),\n        \"matched_count\": matched_count,\n    }\n"
+        code: "import json\nfrom collections import defaultdict\n\nMAX_CHARS = 4000\nBITABLE_URL = \"https://example.feishu.cn/base/YOUR_BITABLE_APP_TOKEN?table=tblAAAAAAAA&view=vewWWWWWWWW\"\nFOOTER = f\"\\n\\n[查看明细]({BITABLE_URL})\"\nTITLE_PREFIX = \"大件备货申请·待供应商确认\"\n\n\ndef build_supplier_block(supplier: str, count: int) -> str:\n    return f\"**{supplier}** {count}条\"\n\n\ndef make_header(\n    days_threshold: float,\n    matched_count: int,\n    supplier_count: int,\n    now_text: str,\n    part_index: int,\n) -> str:\n    days = int(days_threshold or 1)\n    title = f\"{TITLE_PREFIX}超{days}天\"\n    if part_index > 1:\n        title = f\"{title} (续{part_index})\"\n    meta = f\"采购跟进 · 共 {matched_count} 条 / {supplier_count} 家供应商\"\n    if now_text:\n        meta += f\"，生成时间：{now_text.strip()}\"\n    return f\"**{title}**\\n{meta}\"\n\n\ndef split_messages(blocks: list, make_hdr, max_chars: int = MAX_CHARS):\n    if not blocks:\n        return []\n    body_limit = max_chars - len(FOOTER)\n    if body_limit < 200:\n        body_limit = max_chars\n\n    messages = []\n    part_index = 1\n    header = make_hdr(part_index)\n    current = header\n\n    def finalize():\n        nonlocal current, part_index, header\n        messages.append((current + FOOTER).strip())\n        part_index += 1\n        header = make_hdr(part_index)\n        current = header\n\n    for block in blocks:\n        candidate = f\"{current}\\n\\n{block}\"\n        if len(candidate) <= body_limit:\n            current = candidate\n            continue\n        if current != header:\n            finalize()\n        current = f\"{header}\\n\\n{block}\"\n    if current and current != header:\n        messages.append((current + FOOTER).strip())\n    return messages\n\n\ndef main(rows_json: str, days_threshold: float, now_text: str = \"\") -> dict:\n    rows = json.loads(rows_json or \"[]\")\n    groups = defaultdict(int)\n    order = []\n    for row in rows:\n        supplier = (row.get(\"供应商简称\") or \"未知供应商\").strip()\n        if supplier not in groups:\n            groups[supplier] = 0\n            order.append(supplier)\n        groups[supplier] += 1\n\n    blocks = [build_supplier_block(s, groups[s]) for s in order if groups[s]]\n    matched_count = len(rows)\n    supplier_count = len([s for s in order if groups[s]])\n\n    def make_hdr(part_index: int) -> str:\n        return make_header(\n            days_threshold, matched_count, supplier_count, now_text, part_index\n        )\n\n    messages = split_messages(blocks, make_hdr, MAX_CHARS)\n    push_meta = [{\"supplier\": s, \"count\": groups[s]} for s in order if groups[s]]\n\n    return {\n        \"push_messages_json\": json.dumps(messages, ensure_ascii=False),\n        \"push_meta\": json.dumps(push_meta, ensure_ascii=False),\n        \"supplier_count\": supplier_count,\n        \"message_count\": len(messages),\n        \"matched_count\": matched_count,\n    }\n"
         code_language: python3
         desc: 飞书卡片 Markdown 按供应商汇总条数（不展示 SKU）；拆条标题带(续N)；附明细链接
         outputs:

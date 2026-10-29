@@ -3,6 +3,7 @@ dist/
 .env
 .env.local
 docker-compose.public.yml
+docker-compose.linux.yml
 *.log
 .DS_Store
 pgdata/
@@ -28,6 +29,27 @@ login.json
 /*.csv
 /apps/web/*.csv
 
+# 业务样例（含真实 SKU/销量/采购/客服数据，勿提交；保留 fob 合成样例与 *模板*）
+docs/samples/xiaoshou/
+docs/samples/caigou/
+docs/samples/cs/
+docs/samples/kucun/
+docs/samples/采购/
+docs/samples/import/*.xlsx
+docs/samples/import/*.csv
+docs/samples/forecast-july-*.csv
+docs/samples/七月*.csv
+docs/samples/sku-forecast-*.csv
+docs/samples/_*.mjs
+docs/samples/_*.sql
+docs/samples/_*.txt
+docs/samples/import-fob/产品销售报表-*.csv
+docs/samples/import-fob/产品销售报表-*.xlsx
+docs/samples/import-fob/库存表-*.xlsx
+docs/samples/import-fob/导出*.xlsx
+docs/samples/import-fob/体积信息_*.xlsx
+docs/reports/2026-feishu-plus-*.md
+
 # 业务销量报表（含真实销售数据，勿提交）
 docs/samples/import-fob/产品销售报表-*.csv
 docs/samples/import-fob/产品销售报表-*.xlsx
@@ -47,5 +69,13 @@ docs/code (1)/
 # 本地 git worktree 与 SDD 进度账本
 .worktrees/
 .superpowers/
+
+# 临时练习仓 / Agent 沙箱副本（勿提交、勿打包）
+.tmp-workbuddy-practice/
+.tmp-*/
+
+# 独立站点本地构建产物
+sites/**/node_modules/
+sites/**/dist/
 
 *.tsbuildinfo

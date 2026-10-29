@@ -1,8 +1,9 @@
 # 跨境电商供应链智能体平台 (SCM Agent)
 
-自建 Docker 部署的跨境电商供应链智能体平台。本地在 Cursor 中开发，生产运行于 **Win11 专用机 + Docker Compose + Cloudflare Tunnel**。
+自建 Docker 部署的跨境电商供应链智能体平台。本地在 Cursor 中开发；生产可为 **Linux（CentOS/Rocky/Alma）Docker Compose** 或 Win11 + Cloudflare Tunnel。
 
 > **部署基线**：日常发布见 [docs/local-server-release-sop.md](docs/local-server-release-sop.md)。  
+> **对外共享**：交付其他公司前见 [docs/external-share/README.md](docs/external-share/README.md)（脱敏脚本 + 部署/业务说明）。  
 > **当前版本**：v1.0.3 — 迭代说明见 [CHANGELOG.md](CHANGELOG.md)。  
 > **妙搭**：ZIP / CJS 双轨路径**已停用**（无后续对接计划）；历史材料仅作归档，见文末。
 
@@ -55,10 +56,13 @@ pnpm db:migrate && pnpm db:seed
 pnpm dev
 ```
 
-### 生产专用机
+### 生产部署
 
-首次装机：[docs/dedicated-host-server-checklist.md](docs/dedicated-host-server-checklist.md)  
-日常发布：[docs/local-server-release-sop.md](docs/local-server-release-sop.md)
+| 环境 | 文档 |
+|------|------|
+| CentOS / Rocky / Alma + Docker | [docs/external-share/centos-docker-deploy.md](docs/external-share/centos-docker-deploy.md) |
+| 对外共享 / 通用 Compose | [docs/external-share/deployment-guide.md](docs/external-share/deployment-guide.md) |
+| Win11 专用机（内部） | [docs/dedicated-host-server-checklist.md](docs/dedicated-host-server-checklist.md)、[docs/local-server-release-sop.md](docs/local-server-release-sop.md) |
 
 ---
 

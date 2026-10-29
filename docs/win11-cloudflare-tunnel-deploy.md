@@ -1,6 +1,9 @@
-# Win11 专用机 + Cloudflare Tunnel 公网部署指南
+﻿# Win11 专用机 + Cloudflare Tunnel 公网部署指南
 
-> **场景**：不买云服务器，用一台长期开机的 Win11 专用电脑跑 scm-agent，经 Cloudflare Tunnel 让同事通过已备案域名（如 `scm.al6s.cn`）访问。  
+> **内部运维参考**：对外部署见 [docs/external-share/deployment-guide.md](./external-share/deployment-guide.md)（路径相对 docs 目录时请自行调整）。
+
+
+> **场景**：不买云服务器，用一台长期开机的 Win11 专用电脑跑 scm-agent，经 Cloudflare Tunnel 让同事通过已备案域名（如 `scm.example.com`）访问。  
 > **不装虚拟机**：Docker 与 cloudflared 均运行在 Win11 宿主机。  
 > **全新专用机从零安装与迁移**：见 [dedicated-host-setup-migration.md](./dedicated-host-setup-migration.md)
 
@@ -25,7 +28,7 @@ Win11 专用机
 | 组件 | 作用 |
 |------|------|
 | **Docker** | 跑 Postgres + Web，与本地开发同一套 `docker-compose.yml` |
-| **cloudflared** | 把 `https://scm.al6s.cn` 转发到 `http://localhost:8081` |
+| **cloudflared** | 把 `https://scm.example.com` 转发到 `http://localhost:8081` |
 | **Cloudflare DNS** | 子域名 CNAME 指向 Tunnel |
 | **Cloudflare Access**（推荐） | 邮箱白名单，防止公网裸奔 |
 
@@ -39,7 +42,7 @@ Win11 专用机
 |----|------|
 | 硬件 | 建议 8GB+ 内存、100GB+ 磁盘；有线网络更稳 |
 | 系统 | Windows 11（家庭版/专业版均可） |
-| 域名 | `al6s.cn` 已在 Cloudflare 添加，Nameserver 已切换 |
+| 域名 | `example.com` 已在 Cloudflare 添加，Nameserver 已切换 |
 | 备案 | `.cn` 域名已完成 ICP 备案（你方已具备） |
 | 软件 | Docker Desktop、Git；构建代码时需 Node 20+ / pnpm |
 | 账号 | Cloudflare 账号（免费套餐即可） |
@@ -111,7 +114,7 @@ cd scm-agent
 ```powershell
 copy docker-compose.public.example.yml docker-compose.public.yml
 # 编辑 docker-compose.public.yml：
-#   APP_BASE_URL → https://scm.al6s.cn
+#   APP_BASE_URL → https://scm.example.com
 #   JWT_SECRET / CRON_SECRET → 强随机串
 #   AUTH_DEV_MODE → 演示 true；正式 false + 飞书
 ```
@@ -120,11 +123,11 @@ copy docker-compose.public.example.yml docker-compose.public.yml
 
 | 变量 | 公网专用机建议值 |
 |------|------------------|
-| `APP_BASE_URL` | `https://scm.al6s.cn`（与 Tunnel 子域名一致，**无末尾 /**） |
+| `APP_BASE_URL` | `https://scm.example.com`（与 Tunnel 子域名一致，**无末尾 /**） |
 | `AUTH_DEV_MODE` | 内测演示 `"true"`；对外 `"false"` + 配置飞书 |
 | `JWT_SECRET` | 随机 32+ 字符，**勿用默认值** |
 | `CRON_SECRET` | 随机字符串 |
-| `FEISHU_OAUTH_REDIRECT_URI` | `https://scm.al6s.cn/api/auth/feishu/callback`（启用飞书时） |
+| `FEISHU_OAUTH_REDIRECT_URI` | `https://scm.example.com/api/auth/feishu/callback`（启用飞书时） |
 | `FEISHU_APP_ID` / `FEISHU_APP_SECRET` | 飞书开放平台应用凭证 |
 
 ### 4.3 构建并启动
@@ -158,12 +161,12 @@ curl.exe -s http://localhost:8081/api/me
 
 ## 五、Cloudflare 配置
 
-以下子域名以 **`scm.al6s.cn`** 为例，可换成 `app.al6s.cn` 等。
+以下子域名以 **`scm.example.com`** 为例，可换成 `app.example.com` 等。
 
 ### 5.1 确认域名在 Cloudflare
 
 1. 登录 https://dash.cloudflare.com
-2. 添加站点 `al6s.cn`（若未添加）
+2. 添加站点 `example.com`（若未添加）
 3. 按提示把域名注册商的 **Nameserver** 改为 Cloudflare 提供的两个 NS
 4. 等待生效（通常几分钟到 48 小时）
 
@@ -183,10 +186,10 @@ cloudflared --version
 cloudflared tunnel login
 ```
 
-浏览器选择域名 **al6s.cn**，授权后在 `%USERPROFILE%\.cloudflared\` 生成 `cert.pem`。
+浏览器选择域名 **example.com**，授权后在 `%USERPROFILE%\.cloudflared\` 生成 `cert.pem`。
 
 ```powershell
-cloudflared tunnel create scm-al6s
+cloudflared tunnel create scm-tunnel
 ```
 
 记录输出中的 **Tunnel ID** 与 credentials 文件路径，形如：
@@ -198,11 +201,11 @@ cloudflared tunnel create scm-al6s
 创建或编辑 `%USERPROFILE%\.cloudflared\config.yml`：
 
 ```yaml
-tunnel: scm-al6s
+tunnel: scm-tunnel
 credentials-file: C:\Users\<你的用户名>\.cloudflared\<TUNNEL-ID>.json
 
 ingress:
-  - hostname: scm.al6s.cn
+  - hostname: scm.example.com
     service: http://localhost:8081
   - service: http_status:404
 ```
@@ -212,22 +215,22 @@ ingress:
 ### 5.5 绑定 DNS
 
 ```powershell
-cloudflared tunnel route dns scm-al6s scm.al6s.cn
+cloudflared tunnel route dns scm-tunnel scm.example.com
 ```
 
-或在 Cloudflare 控制台：**Zero Trust → Networks → Tunnels → scm-al6s → Public Hostname**，添加：
+或在 Cloudflare 控制台：**Zero Trust → Networks → Tunnels → scm-tunnel → Public Hostname**，添加：
 
 - Subdomain: `scm`
-- Domain: `al6s.cn`
+- Domain: `example.com`
 - Service: `HTTP` → `localhost:8081`
 
 ### 5.6 手动试跑 Tunnel
 
 ```powershell
-cloudflared tunnel run scm-al6s
+cloudflared tunnel run scm-tunnel
 ```
 
-保持窗口打开，另开终端或用手机访问：**https://scm.al6s.cn**
+保持窗口打开，另开终端或用手机访问：**https://scm.example.com**
 
 期望：页面与 http://localhost:8081 一致；`/api/health` 返回 JSON。
 
@@ -246,7 +249,7 @@ cloudflared service start
 Get-Service cloudflared
 # Status 应为 Running
 
-# 重启电脑后再次访问 https://scm.al6s.cn
+# 重启电脑后再次访问 https://scm.example.com
 ```
 
 卸载服务（如需）：`cloudflared service uninstall`
@@ -261,7 +264,7 @@ Get-Service cloudflared
 
 1. Cloudflare 控制台 → **Zero Trust** → **Access → Applications → Add an application**
 2. 类型：**Self-hosted**
-3. Application domain：`scm.al6s.cn`
+3. Application domain：`scm.example.com`
 4. **Policy**：Allow → Include → 同事 **邮箱** 或 **邮箱域名**（如 `@company.com`）
 5. 身份提供商：One-time PIN（邮箱验证码）或 Google/GitHub 等
 
@@ -272,7 +275,7 @@ Get-Service cloudflared
 1. `docker-compose.public.yml` 中设置：
    - `AUTH_DEV_MODE: "false"`
    - `FEISHU_APP_ID` / `FEISHU_APP_SECRET`
-   - `FEISHU_OAUTH_REDIRECT_URI: https://scm.al6s.cn/api/auth/feishu/callback`
+   - `FEISHU_OAUTH_REDIRECT_URI: https://scm.example.com/api/auth/feishu/callback`
 2. 飞书开放平台 → 应用 → **重定向 URL** 添加上述 callback
 3. 重建 web：`docker compose -f docker-compose.yml -f docker-compose.public.yml up -d --force-recreate web`
 
@@ -334,19 +337,19 @@ docker compose -f docker-compose.yml -f docker-compose.public.yml up -d --build
 | 容器 Up | `docker compose ps` |
 | 本机 API | http://localhost:8081/api/health |
 | Tunnel 服务 | `Get-Service cloudflared` → Running |
-| 公网访问 | https://scm.al6s.cn |
+| 公网访问 | https://scm.example.com |
 
 ---
 
 ## 八、验收清单（给同事联调前）
 
-- [ ] https://scm.al6s.cn 打开首页，非 Cloudflare 502
-- [ ] https://scm.al6s.cn/api/health 返回 JSON，`db` 正常
-- [ ] https://scm.al6s.cn/api/me 行为符合预期（dev 模式或飞书登录）
+- [ ] https://scm.example.com 打开首页，非 Cloudflare 502
+- [ ] https://scm.example.com/api/health 返回 JSON，`db` 正常
+- [ ] https://scm.example.com/api/me 行为符合预期（dev 模式或飞书登录）
 - [ ] 侧边栏菜单有数据（老库可 `pnpm db:seed` 或 migrate）
 - [ ] Cloudflare Access 或飞书登录已启用（若对公网开放）
 - [ ] 专用机重启后 5 分钟内公网可访问（Docker + cloudflared 自启）
-- [ ] `APP_BASE_URL` 为 `https://scm.al6s.cn`，无 `localhost`
+- [ ] `APP_BASE_URL` 为 `https://scm.example.com`，无 `localhost`
 
 ---
 
@@ -396,15 +399,15 @@ docker compose -f docker-compose.yml -f docker-compose.public.yml up -d --build
 curl.exe -s http://localhost:8081/api/health
 
 cloudflared tunnel login
-cloudflared tunnel create scm-al6s
+cloudflared tunnel create scm-tunnel
 # 编辑 %USERPROFILE%\.cloudflared\config.yml（见 5.4）
-cloudflared tunnel route dns scm-al6s scm.al6s.cn
-cloudflared tunnel run scm-al6s          # 试通后 Ctrl+C
+cloudflared tunnel route dns scm-tunnel scm.example.com
+cloudflared tunnel run scm-tunnel          # 试通后 Ctrl+C
 cloudflared service install
 cloudflared service start
 
 # === 同事访问 ===
-# https://scm.al6s.cn
+# https://scm.example.com
 ```
 
 ---

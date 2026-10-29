@@ -77,14 +77,14 @@ describe('procurement-bitable-list', () => {
     const prevFollow = process.env.FEISHU_BITABLE_TABLE_PURCHASE_FOLLOW_UP;
     const prevApp = process.env.FEISHU_BITABLE_APP_TOKEN;
 
-    process.env.FEISHU_BITABLE_APP_TOKEN = 'HPJzbHdPea7elSs92T8c31BTnxe';
-    process.env.FEISHU_BITABLE_TABLE_BULK_STOCK_REQUEST = 'tbl7H8F6rc2xeFGf';
-    process.env.FEISHU_BITABLE_TABLE_PURCHASE_FOLLOW_UP = 'tbl3m7FqgPVr4kmY';
+    process.env.FEISHU_BITABLE_APP_TOKEN = 'bascnTestAppToken0001';
+    process.env.FEISHU_BITABLE_TABLE_BULK_STOCK_REQUEST = 'tblTestBulkStock01';
+    process.env.FEISHU_BITABLE_TABLE_PURCHASE_FOLLOW_UP = 'tblTestFollowUp01';
 
     const config = getProcurementListConfig();
     assert.equal(config.bulk_stock_request.configured, true);
-    assert.equal(config.bulk_stock_request.tableId, 'tbl7H8F6rc2xeFGf');
-    assert.equal(config.purchase_follow_up.tableId, 'tbl3m7FqgPVr4kmY');
+    assert.equal(config.bulk_stock_request.tableId, 'tblTestBulkStock01');
+    assert.equal(config.purchase_follow_up.tableId, 'tblTestFollowUp01');
 
     process.env.FEISHU_BITABLE_TABLE_BULK_STOCK_REQUEST = prevBulk;
     process.env.FEISHU_BITABLE_TABLE_PURCHASE_FOLLOW_UP = prevFollow;

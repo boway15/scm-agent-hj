@@ -1,4 +1,4 @@
-# 采购运营 × 飞书多维表格同步设计
+﻿# 采购运营 × 飞书多维表格同步设计
 
 ## 1. 背景与目标
 
@@ -6,10 +6,10 @@
 
 飞书表：
 
-- Base：`HPJzbHdPea7elSs92T8c31BTnxe`
-- 表：`tblWUnYLwD8UATAS`
-- 视图：`vewh32YnLB`（仅业务定位）
-- 链接：https://chinabestwo.feishu.cn/base/HPJzbHdPea7elSs92T8c31BTnxe?table=tblWUnYLwD8UATAS&view=vewh32YnLB
+- Base：`bascnXXXXXXXX`
+- 表：`tblXXXXXXXX`
+- 视图：`vewXXXXXXXX`（仅业务定位）
+- 链接：https://example.feishu.cn/base/bascnXXXXXXXX?table=tblXXXXXXXX&view=vewXXXXXXXX
 
 目标：
 
@@ -25,8 +25,8 @@
 | 实现方案 | **方案 A**：平行复制「库存查询」链路（独立表 + 独立任务 + 独立页面） |
 | 飞书应用 | 现有 `FEISHU_APP_ID` / `FEISHU_APP_SECRET`（与 OAuth、其他 Bitable 拉取相同） |
 | App Token | 优先 `FEISHU_BITABLE_PROCUREMENT_APP_TOKEN`，否则 `FEISHU_BITABLE_APP_TOKEN` |
-| Table | `FEISHU_BITABLE_TABLE_PROCUREMENT_OPS=tblWUnYLwD8UATAS` |
-| 视图 | `vewh32YnLB` 仅定位；同步 **整表** 拉取，不按视图过滤 |
+| Table | `FEISHU_BITABLE_TABLE_PROCUREMENT_OPS=tblXXXXXXXX` |
+| 视图 | `vewXXXXXXXX` 仅定位；同步 **整表** 拉取，不按视图过滤 |
 | 同步类型（拉取 guard） | `procurement_ops`（`upload-guard` 行数上限建议 50_000，与库存查询同级） |
 | 任务形态 | HTTP + `X-Cron-Secret`；Compose cron `0 6 * * *` |
 | `task_runs.taskName` | `procurement_ops_pull`（已有 `running` 则跳过并记失败） |
@@ -136,16 +136,16 @@ Cron：`0 6 * * *` → `/api/tasks/procurement-ops-pull`。
 
 ### 5.3 默认可见列
 
-- **权威来源**：实现首日调用 `listBitableFields` 对 `tblWUnYLwD8UATAS` 探测，将推荐默认列写入 `procurement-ops-columns.ts`（或同目录常量）
+- **权威来源**：实现首日调用 `listBitableFields` 对 `tblXXXXXXXX` 探测，将推荐默认列写入 `procurement-ops-columns.ts`（或同目录常量）
 - 探测前 spec 不臆测列名；至少保证 `SKU`（或别名）在默认集中（若表存在）
 
 ## 6. 配置与运维
 
 ```env
-FEISHU_BITABLE_PROCUREMENT_APP_TOKEN=HPJzbHdPea7elSs92T8c31BTnxe
+FEISHU_BITABLE_PROCUREMENT_APP_TOKEN=bascnXXXXXXXX
 # 或与主数据共用：
 # FEISHU_BITABLE_APP_TOKEN=...
-FEISHU_BITABLE_TABLE_PROCUREMENT_OPS=tblWUnYLwD8UATAS
+FEISHU_BITABLE_TABLE_PROCUREMENT_OPS=tblXXXXXXXX
 ```
 
 前置：飞书应用已开通 Bitable 权限，且为表协作者。
@@ -176,7 +176,7 @@ FEISHU_BITABLE_TABLE_PROCUREMENT_OPS=tblWUnYLwD8UATAS
 
 | 维度 | 库存查询 | 采购运营 |
 |------|----------|----------|
-| 表 ID | `tblubb08s6pe6DXI` | `tblWUnYLwD8UATAS` |
+| 表 ID | `tblYYYYYYYY` | `tblXXXXXXXX` |
 | 菜单 code | `inventory.query` | `inventory.procurement_ops` |
 | Cron | 07:20 | 06:00 |
 | taskName | `inventory_query_pull` | `procurement_ops_pull` |

@@ -1,15 +1,26 @@
 /**
  * Push scm-agent blueprint as Feishu Docx (prose document, no tables).
+ *
+ * 【内部运维】仅内部推送；对外共享勿配置 FEISHU 凭证运行本脚本。
  * Usage: node --env-file=.env scripts/push-blueprint-to-feishu-doc.mjs
+ *
+ * 需要：FEISHU_APP_ID、FEISHU_APP_SECRET、FEISHU_BITABLE_BLUEPRINT_APP_TOKEN
+ * 可选：FEISHU_BASE_WEB_URL（默认 https://example.feishu.cn）
  */
 import { readFileSync } from 'node:fs';
 import { fileURLToPath } from 'node:url';
 import { dirname, join } from 'node:path';
 
 const FEISHU_BASE = 'https://open.feishu.cn/open-apis';
-const APP_TOKEN = 'UvD5b2txjau5WksACknccdQknHh';
+const APP_TOKEN = (process.env.FEISHU_BITABLE_BLUEPRINT_APP_TOKEN || '').trim();
+const FEISHU_BASE_WEB_URL = (process.env.FEISHU_BASE_WEB_URL || 'https://example.feishu.cn').replace(/\/$/, '');
 const DOC_TITLE = '数智驱动 · 计划—采购—物流—运营主轴平台（scm-agent 蓝图报告）';
 const REPORT_PATH = join(dirname(fileURLToPath(import.meta.url)), '../docs/reports/scm-feishu-ai-blueprint-report.md');
+
+if (!APP_TOKEN) {
+  console.error('缺少 FEISHU_BITABLE_BLUEPRINT_APP_TOKEN，已中止（勿将真实 Base token 写回仓库）。');
+  process.exit(1);
+}
 
 async function getToken() {
   const res = await fetch(`${FEISHU_BASE}/auth/v3/tenant_access_token/internal`, {
@@ -191,7 +202,7 @@ async function main() {
 
   console.log(`Creating Feishu document (${blocks.length} blocks)...`);
   const documentId = await createDocument(token);
-  const docUrl = `https://chinabestwo.feishu.cn/docx/${documentId}`;
+  const docUrl = `${FEISHU_BASE_WEB_URL}/docx/${documentId}`;
 
   console.log('Writing document content...');
   await appendBlocks(token, documentId, blocks);

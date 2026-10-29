@@ -12,7 +12,7 @@ credentials-file: C:\Users\<USERNAME>\.cloudflared\<TUNNEL-ID>.json
 
 ingress:
   # 公网子域名 → 本机 Docker web 端口（与 docker-compose ports 8081:8081 一致）
-  - hostname: scm.al6s.cn
+  - hostname: scm.example.com
     service: http://localhost:8081
   # 兜底：未匹配域名返回 404
   - service: http_status:404

@@ -1,15 +1,15 @@
-# 库存查询 × 飞书「SKU库存周转情况查询-明细」同步设计
+﻿# 库存查询 × 飞书「SKU库存周转情况查询-明细」同步设计
 
 ## 1. 背景与目标
 
-库存总览权威源为飞书压缩宽表（约 66 列，`tblwvSHbqJ3szugE`）。其中区域列是近半年销售占比，**不是**各仓实物在库；业务需要按仓库查看在库/在途等明细。
+库存总览权威源为飞书压缩宽表（约 66 列，`tblZZZZZZZZ`）。其中区域列是近半年销售占比，**不是**各仓实物在库；业务需要按仓库查看在库/在途等明细。
 
 飞书明细表（与本地样例「SKU库存周转情况查询-明细」同构，约 200 列）：
 
-- Base：`HPJzbHdPea7elSs92T8c31BTnxe`
-- 表：`tblubb08s6pe6DXI`
-- 视图：`vew5Bp6EcY`
-- 链接：https://chinabestwo.feishu.cn/base/HPJzbHdPea7elSs92T8c31BTnxe?table=tblubb08s6pe6DXI&view=vew5Bp6EcY
+- Base：`bascnXXXXXXXX`
+- 表：`tblYYYYYYYY`
+- 视图：`vewYYYYYYYY`
+- 链接：https://example.feishu.cn/base/bascnXXXXXXXX?table=tblYYYYYYYY&view=vewYYYYYYYY
 
 目标：
 
@@ -25,8 +25,8 @@
 | 实现方案 | 独立同步类型 + 独立快照表（与总览平行，不复用 `inventory_daily_snapshots`） |
 | 同步类型 | `inventory_query` |
 | App Token | 优先 `FEISHU_BITABLE_PROCUREMENT_APP_TOKEN`，否则 `FEISHU_BITABLE_APP_TOKEN` |
-| Table | `FEISHU_BITABLE_TABLE_INVENTORY_QUERY=tblubb08s6pe6DXI` |
-| 视图 | URL 中的 `vew5Bp6EcY` 仅作业务定位；同步按**整表**拉取，不按视图过滤（与总览一致） |
+| Table | `FEISHU_BITABLE_TABLE_INVENTORY_QUERY=tblYYYYYYYY` |
+| 视图 | URL 中的 `vewYYYYYYYY` 仅作业务定位；同步按**整表**拉取，不按视图过滤（与总览一致） |
 | 任务形态 | HTTP + `X-Cron-Secret`；Compose cron `20 7 * * *` |
 | `task_runs.taskName` | `inventory_query_pull`（已有 `running` 则跳过并记失败） |
 | 字段权威 | 飞书列原名原样写入 `payload` JSONB；不以系统别名重写 |
@@ -123,7 +123,7 @@ Cron 条目：`20 7 * * *` → `/api/tasks/inventory-query-pull`（与总览 `30
 
 ## 6. 字段目录约定
 
-- 权威来源：飞书表 `tblubb08s6pe6DXI` 实际字段名
+- 权威来源：飞书表 `tblYYYYYYYY` 实际字段名
 - 实现时可参考本地样例 `docs/samples/kucun/库存表-SKU库存周转情况查询-明细*.xlsx`（约 200 列，含 `海外仓库存_美东`、`调拨在途_美东` 等）
 - 同步时以飞书返回字段为准；样例仅作默认列分组与开发对照，不强制列数完全一致
 

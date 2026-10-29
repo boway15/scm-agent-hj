@@ -1,12 +1,12 @@
-# 库存总览 × 飞书「SKU周转相关信息」同步设计
+﻿# 库存总览 × 飞书「SKU周转相关信息」同步设计
 
 ## 1. 背景与目标
 
 库存总览依赖 SKU 周转宽表（分仓库存 + 合计在途/在产/销量/周转）。业务权威数据源改为飞书多维表格：
 
-- Base：`HPJzbHdPea7elSs92T8c31BTnxe`
-- 表：`tblwvSHbqJ3szugE`（SKU周转相关信息）
-- 规模：66 列 Text，约 5800+ 行
+- Base：`bascnXXXXXXXX`
+- 表：`tblZZZZZZZZ`（SKU周转相关信息）
+- 规模：66 列 Text，约数千行
 
 目标：
 
@@ -20,7 +20,7 @@
 |----|------|
 | 同步类型 | 新类型 `inventory_turnover`（不复用 6 字段 `inventory`） |
 | App Token | 优先 `FEISHU_BITABLE_PROCUREMENT_APP_TOKEN`，否则 `FEISHU_BITABLE_APP_TOKEN` |
-| Table | `FEISHU_BITABLE_TABLE_INVENTORY=tblwvSHbqJ3szugE` |
+| Table | `FEISHU_BITABLE_TABLE_INVENTORY=tblZZZZZZZZ` |
 | 任务形态 | HTTP + `X-Cron-Secret`，Compose cron `30 7 * * *`（每天 07:30，非妙搭） |
 | Snapshot | 飞书 66 列原名为总览权威；导入仍可双键写 Excel 兼容别名供分仓展开 |
 | 分仓在途 | 仅合计，不伪造分仓 `qty_in_transit` |

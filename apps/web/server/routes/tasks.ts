@@ -32,7 +32,11 @@ import { INVENTORY_TURNOVER_PULL_TASK } from '../lib/inventory-turnover-pull-tas
 import { runCommercialStatusReconcile } from '../tasks/commercialStatusReconcile.js';
 import { runSalesDailyFeishuPull } from '../tasks/salesDailyFeishuPull.js';
 import { SALES_DAILY_FEISHU_PULL_TASK } from '../lib/feishu-sales-daily-pull-task.js';
-import { syncQcReinspection } from '../lib/qc-reinspection-sync.js';
+import {
+  getQcReinspectionConfig,
+  isQcReinspectionConfigured,
+  syncQcReinspection,
+} from '../lib/qc-reinspection-sync.js';
 
 export const taskRoutes = new Hono();
 
@@ -361,6 +365,21 @@ taskRoutes.post('/tasks/sales-daily-feishu-pull', requireCronSecret, async (c) =
 taskRoutes.post('/tasks/qc-reinspection-sync', requireCronSecret, async (c) => {
   const triggeredBy = resolveTriggeredBy(c);
   const run = await startTaskRun('qc_reinspection_sync', triggeredBy);
+  if (!isQcReinspectionConfigured(getQcReinspectionConfig())) {
+    await finishTaskRun(run.id, {
+      success: true,
+      resultSummary: 'skipped: qc bitable env not configured',
+    });
+    return c.json(
+      {
+        skipped: true,
+        message:
+          'QC 复检飞书多维表格未配置（FEISHU_BITABLE_QC_*），已跳过',
+        taskRunId: run.id,
+      },
+      409,
+    );
+  }
   try {
     const result = await syncQcReinspection();
     const backfill = result.backfill;

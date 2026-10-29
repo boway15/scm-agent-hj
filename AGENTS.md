@@ -2,7 +2,8 @@
 
 跨境电商供应链智能体平台（**自建 Docker 部署**）。**完整角色约束见 `docs/agent-roles-detail.md`**；开发时 `@` 对应 Skill（`miaoda-prd`、`scm-domain`、`scm-design` 等）。
 
-> **部署**：日常发布以 `docs/local-server-release-sop.md` 为准。  
+> **部署（内部）**：日常发布以 `docs/local-server-release-sop.md` 为准。  
+> **部署（对外）**：交付其他公司见 `docs/external-share/README.md`（脱敏脚本 + 部署/业务说明）。  
 > **妙搭**：ZIP / CJS 双轨已停用；仅在用户明确要求时查阅 `feishu-miaoda` Skill。
 
 ## 角色总览

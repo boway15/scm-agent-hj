@@ -1,4 +1,4 @@
-# 飞书多维表格同步（阶段一主数据）
+﻿# 飞书多维表格同步（阶段一主数据）
 
 scm-agent 支持在 **数据导入中心**（`/data/import`）从飞书多维表格一键拉取供应链主数据，与 CSV/XLSX 直接导入并存。
 
@@ -23,15 +23,15 @@ FEISHU_BITABLE_TABLE_MERCHANTS=
 FEISHU_BITABLE_TABLE_WAREHOUSE_LEADS=
 FEISHU_BITABLE_TABLE_INVENTORY_POLICY=
 FEISHU_BITABLE_TABLE_SALES_FORECAST=
-FEISHU_BITABLE_TABLE_BULK_STOCK_REQUEST=   # 大件备货申请 tbl7H8F6rc2xeFGf
-FEISHU_BITABLE_TABLE_PURCHASE_FOLLOW_UP=    # 采购跟单（采购管理）tbl3m7FqgPVr4kmY
-FEISHU_BITABLE_TABLE_PROCUREMENT_OPS=       # 全链库存（库存运营只读日快照）tblWUnYLwD8UATAS
+FEISHU_BITABLE_TABLE_BULK_STOCK_REQUEST=   # 大件备货申请 tblAAAAAAAA
+FEISHU_BITABLE_TABLE_PURCHASE_FOLLOW_UP=    # 采购跟单（采购管理）tblBBBBBBBB
+FEISHU_BITABLE_TABLE_PROCUREMENT_OPS=       # 全链库存（库存运营只读日快照）tblXXXXXXXX
 # 规划头寸数量来源（默认 turnover_share=周转合计×占比；warehouse_facts=影子长表在库/调拨在途）
 # INVENTORY_POSITION_SOURCE=turnover_share
 FEISHU_BITABLE_TABLE_NEWS_INTEL=            # 旧跨境资讯表（仅历史，禁止新写入）
 FEISHU_BITABLE_TABLE_NEWS_INTEL_V2=         # 新「跨境资讯总表」
-# 若采购表与新闻/主数据不在同一份多维表格，可单独指定：
-# FEISHU_BITABLE_PROCUREMENT_APP_TOKEN=HPJzbHdPea7elSs92T8c31BTnxe
+# 若采购表与新闻/主数据不在同一份多维表格，可单独指定（填接收方 Base 的 app_token）：
+# FEISHU_BITABLE_PROCUREMENT_APP_TOKEN=bascnXXXXXXXX
 ```
 
 跨境资讯采集（`/intel/news`）只写入 `FEISHU_BITABLE_TABLE_NEWS_INTEL_V2`；旧 `FEISHU_BITABLE_TABLE_NEWS_INTEL` 仅保留历史记录。
@@ -40,12 +40,12 @@ FEISHU_BITABLE_TABLE_NEWS_INTEL_V2=         # 新「跨境资讯总表」
 
 采购管理模块（`/procurement/bulk-stock`、`/procurement/follow-up`）与主数据导入共用 `FEISHU_BITABLE_APP_TOKEN`。本模块每次飞书同步或文件上传会**全量覆盖**对应列表；**同步到飞书**时也会先清空飞书表再写入本地全部行。
 
-示例（同一多维表格 `HPJzbHdPea7elSs92T8c31BTnxe`）：
+示例（同一 Base 下多表时，token 与 table_id 均来自接收方飞书 URL）：
 
 ```env
-FEISHU_BITABLE_APP_TOKEN=HPJzbHdPea7elSs92T8c31BTnxe
-FEISHU_BITABLE_TABLE_BULK_STOCK_REQUEST=tbl7H8F6rc2xeFGf
-FEISHU_BITABLE_TABLE_PURCHASE_FOLLOW_UP=tbl3m7FqgPVr4kmY
+FEISHU_BITABLE_APP_TOKEN=bascnXXXXXXXX
+FEISHU_BITABLE_TABLE_BULK_STOCK_REQUEST=tblXXXXXXXX
+FEISHU_BITABLE_TABLE_PURCHASE_FOLLOW_UP=tblYYYYYYYY
 ```
 
 获取方式：

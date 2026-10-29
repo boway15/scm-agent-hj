@@ -1,4 +1,4 @@
-# 公网专用机 override 示例（Win11 + Cloudflare Tunnel）
+# 公网 override 示例（Linux / Win11 + Nginx 或 Cloudflare Tunnel）
 #
 # 用法：
 #   copy docker-compose.public.example.yml docker-compose.public.yml
@@ -11,7 +11,7 @@ services:
   web:
     environment:
       # 与 Cloudflare Tunnel 子域名一致，无末尾斜杠
-      APP_BASE_URL: https://scm.al6s.cn
+      APP_BASE_URL: https://scm.example.com
 
       # 登录策略：必须登录；邮箱 + 飞书（需配置 FEISHU_*）
       AUTH_REQUIRE_LOGIN: "true"
@@ -24,14 +24,14 @@ services:
       # 超管密码见 docker-compose.yml 默认 BOOTSTRAP_ADMIN_PASSWORD（admin123456）
 
       # 飞书 OAuth 回调（须与飞书开放平台重定向 URL 完全一致）
-      FEISHU_OAUTH_REDIRECT_URI: https://scm.al6s.cn/api/auth/feishu/callback
+      FEISHU_OAUTH_REDIRECT_URI: https://scm.example.com/api/auth/feishu/callback
 
       # 库存总览 / 采购飞书多维表格（与 .env 二选一；勿留空字符串，否则会覆盖 .env）
-      # FEISHU_BITABLE_PROCUREMENT_APP_TOKEN: "HPJzbHdPea7elSs92T8c31BTnxe"
-      # FEISHU_BITABLE_TABLE_INVENTORY: "tblwvSHbqJ3szugE"
-      # FEISHU_BITABLE_TABLE_INVENTORY_QUERY: "tblubb08s6pe6DXI"
-      # FEISHU_BITABLE_TABLE_SALES_DAILY: "tbl6autzkb5vMqHx"
-      # FEISHU_BITABLE_TABLE_PROCUREMENT_OPS: "tblWUnYLwD8UATAS"
+      # FEISHU_BITABLE_PROCUREMENT_APP_TOKEN: "bascnXXXXXXXX"
+      # FEISHU_BITABLE_TABLE_INVENTORY: "tblXXXXXXXX"
+      # FEISHU_BITABLE_TABLE_INVENTORY_QUERY: "tblYYYYYYYY"
+      # FEISHU_BITABLE_TABLE_SALES_DAILY: "tblZZZZZZZZ"
+      # FEISHU_BITABLE_TABLE_PROCUREMENT_OPS: "tblWWWWWWWW"
 
   # cron 须显式注入 CRON_SECRET（与 web/.env 一致）；勿写死默认值以免盖掉 .env
   cron:

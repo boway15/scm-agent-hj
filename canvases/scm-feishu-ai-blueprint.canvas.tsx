@@ -1,4 +1,4 @@
-import {
+﻿import {
   computeDAGLayout,
   Grid,
   H1,
@@ -950,7 +950,7 @@ const enginesDetail = [
 
 const dataPipelines = [
   ["库存查询", "07:20", "分仓明细 · 约 200 列", "日快照归档", "只读，不驱动补货"],
-  ["库存周转", "07:30", "周转宽表 · 5800+ SKU", "总览 + 补货输入 + 主数据", "规划主数据源"],
+  ["库存周转", "07:30", "周转宽表 · 多 SKU", "总览 + 补货输入 + 主数据", "规划主数据源"],
   ["大件备货", "08:00", "备货申请表", "全量覆盖本地", "Dify 超期推送"],
   ["采购跟单", "08:05", "履约台账", "与 PMC 跟单对齐", "Dify 每日催办"],
   ["商品主数据", "随周转", "SKU 基础字段", "自动创建/增量更新", "生命周期自动算"],
@@ -1146,7 +1146,7 @@ export default function ScmFeishuAiBlueprint() {
         <EditorialNote title="业务部门集中反馈">
           以上痛点来自计划、采购、运营等业务线日常协作中的共性诉求；详细案例与量化反馈见飞书多维表格{" "}
           <Link
-            href="https://chinabestwo.feishu.cn/base/UvD5b2txjau5WksACknccdQknHh?from=from_copylink"
+            href="https://example.feishu.cn/base/bascnXXXXXXXX"
             style={{ color: D.blue, textDecoration: "none", fontWeight: 500 }}
           >
             供应链业务痛点与改进建议汇总

@@ -1,10 +1,21 @@
 /**
  * Push scm-agent blueprint report sections to Feishu Bitable.
+ *
+ * 【内部运维】仅内部推送；对外共享勿配置 FEISHU 凭证运行本脚本。
  * Usage: node --env-file=.env scripts/push-blueprint-to-feishu.mjs
+ *
+ * 需要环境变量：FEISHU_APP_ID、FEISHU_APP_SECRET、FEISHU_BITABLE_BLUEPRINT_APP_TOKEN
+ * 可选：FEISHU_BASE_WEB_URL（默认 https://example.feishu.cn）
  */
 const FEISHU_BASE = 'https://open.feishu.cn/open-apis';
-const APP_TOKEN = 'UvD5b2txjau5WksACknccdQknHh';
+const APP_TOKEN = (process.env.FEISHU_BITABLE_BLUEPRINT_APP_TOKEN || '').trim();
+const FEISHU_BASE_WEB_URL = (process.env.FEISHU_BASE_WEB_URL || 'https://example.feishu.cn').replace(/\/$/, '');
 const TABLE_NAME = 'scm-agent 蓝图报告';
+
+if (!APP_TOKEN) {
+  console.error('缺少 FEISHU_BITABLE_BLUEPRINT_APP_TOKEN，已中止（勿将真实 Base token 写回仓库）。');
+  process.exit(1);
+}
 
 function tableMd(headers, rows) {
   const esc = (s) => String(s ?? '').replace(/\|/g, '\\|').replace(/\n/g, ' ');
@@ -92,7 +103,7 @@ const enginesDetail = [
 
 const dataPipelines = [
   ['库存查询', '07:20', '分仓明细 · 约 200 列', '日快照归档', '只读，不驱动补货'],
-  ['库存周转', '07:30', '周转宽表 · 5800+ SKU', '总览 + 补货输入 + 主数据', '规划主数据源'],
+  ['库存周转', '07:30', '周转宽表 · 多 SKU', '总览 + 补货输入 + 主数据', '规划主数据源'],
   ['大件备货', '08:00', '备货申请表', '全量覆盖本地', 'Dify 超期推送'],
   ['采购跟单', '08:05', '履约台账', '与 PMC 跟单对齐', 'Dify 每日催办'],
   ['商品主数据', '随周转', 'SKU 基础字段', '自动创建/增量更新', '生命周期自动算'],
@@ -555,7 +566,7 @@ async function main() {
   await batchCreate(token, tableId, REPORT_SECTIONS);
   console.log(`Wrote ${REPORT_SECTIONS.length} sections to ${TABLE_NAME}`);
   await addProjectRecord(token);
-  console.log(`Done. Open: https://chinabestwo.feishu.cn/base/${APP_TOKEN}`);
+  console.log(`Done. Open: ${FEISHU_BASE_WEB_URL}/base/${APP_TOKEN}`);
 }
 
 main().catch((err) => {

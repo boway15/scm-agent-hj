@@ -1,0 +1,6 @@
+sku_code,name,warehouse,qty_available,qty_in_transit,qty_in_production,recorded_date
+DEMO-SKU-001,Demo Product Alpha,US-WEST,40,5,0,2026-06-30
+DEMO-SKU-002,Demo Product Beta,US-EAST,52,7,3,2026-06-30
+DEMO-SKU-003,Demo Product Gamma,US-WEST,64,9,6,2026-06-30
+DEMO-SKU-004,Demo Product Delta,US-EAST,76,11,9,2026-06-30
+DEMO-SKU-005,Demo Product Epsilon,US-WEST,88,13,12,2026-06-30

@@ -1,0 +1,24 @@
+# Linux / CentOS 生产可选 override
+#
+# 用法：
+#   cp docker-compose.linux.example.yml docker-compose.linux.yml
+#   docker compose -f docker-compose.yml -f docker-compose.linux.yml up -d --build
+#
+# docker-compose.linux.yml 建议加入 .gitignore（若含环境相关调整）。
+
+services:
+  postgres:
+    # 生产建议：PostgreSQL 仅本机可连，勿对公网暴露 5432
+    ports:
+      - "127.0.0.1:5432:5432"
+
+  web:
+    environment:
+      # 公网 HTTPS 时在 docker-compose.public.yml 中设 COOKIE_SECURE=true
+      TZ: Asia/Shanghai
+    extra_hosts:
+      - "host.docker.internal:host-gateway"
+
+  cron:
+    environment:
+      TZ: Asia/Shanghai

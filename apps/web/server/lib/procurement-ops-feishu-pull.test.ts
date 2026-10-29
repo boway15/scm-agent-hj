@@ -1,17 +1,14 @@
 import assert from 'node:assert/strict';
 import { describe, it } from 'node:test';
-import {
-  DEFAULT_PROCUREMENT_OPS_TABLE_ID,
-  getProcurementOpsBitableConfig,
-} from './procurement-ops-feishu-pull.js';
+import { getProcurementOpsBitableConfig } from './procurement-ops-feishu-pull.js';
 
 describe('procurement-ops-feishu-pull config', () => {
-  it('defaults table id when env unset', () => {
+  it('requires env table id (no hardcoded production default)', () => {
     const prev = process.env.FEISHU_BITABLE_TABLE_PROCUREMENT_OPS;
     delete process.env.FEISHU_BITABLE_TABLE_PROCUREMENT_OPS;
     try {
       const config = getProcurementOpsBitableConfig();
-      assert.equal(config.tableId, DEFAULT_PROCUREMENT_OPS_TABLE_ID);
+      assert.equal(config.tableId, undefined);
     } finally {
       if (prev == null) delete process.env.FEISHU_BITABLE_TABLE_PROCUREMENT_OPS;
       else process.env.FEISHU_BITABLE_TABLE_PROCUREMENT_OPS = prev;

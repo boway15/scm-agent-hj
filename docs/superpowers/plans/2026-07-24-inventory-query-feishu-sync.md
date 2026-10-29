@@ -1,4 +1,4 @@
-# 库存查询 × 飞书明细同步 Implementation Plan
+﻿# 库存查询 × 飞书明细同步 Implementation Plan
 
 > **For agentic workers:** REQUIRED SUB-SKILL: Use superpowers:subagent-driven-development (recommended) or superpowers:executing-plans to implement this plan task-by-task. Steps use checkbox (`- [ ]`) syntax for tracking.
 
@@ -12,8 +12,8 @@
 
 ## Global Constraints
 
-- 数据源：Base `HPJzbHdPea7elSs92T8c31BTnxe`，表 `tblubb08s6pe6DXI`（整表拉取，不按视图过滤）。
-- Env：`FEISHU_BITABLE_TABLE_INVENTORY_QUERY=tblubb08s6pe6DXI`；App Token 与总览相同（优先 `FEISHU_BITABLE_PROCUREMENT_APP_TOKEN`）。
+- 数据源：Base `bascnXXXXXXXX`，表 `tblYYYYYYYY`（整表拉取，不按视图过滤）。
+- Env：`FEISHU_BITABLE_TABLE_INVENTORY_QUERY=tblYYYYYYYY`；App Token 与总览相同（优先 `FEISHU_BITABLE_PROCUREMENT_APP_TOKEN`）。
 - Cron：`20 7 * * *` → `POST /api/tasks/inventory-query-pull`；`taskName=inventory_query_pull`。
 - Spec：`docs/superpowers/specs/2026-07-24-inventory-query-feishu-sync-design.md`
 
@@ -31,7 +31,7 @@
 
 ## 上线检查
 
-1. `.env` 增加 `FEISHU_BITABLE_TABLE_INVENTORY_QUERY=tblubb08s6pe6DXI`
+1. `.env` 增加 `FEISHU_BITABLE_TABLE_INVENTORY_QUERY=tblYYYYYYYY`
 2. `pnpm db:migrate`（0048 + 0049）
 3. 重启 `web` + `cron`
 4. 系统任务页触发「库存查询从飞书拉取」冒烟

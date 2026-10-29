@@ -1,4 +1,4 @@
-import {
+﻿import {
   pgTable,
   pgEnum,
   uuid,
@@ -258,7 +258,7 @@ export const inventoryQueryDailySnapshots = pgTable(
   }),
 );
 
-/** 全链库存（飞书宽表 tblWUnYLwD8UATAS）每日发布批次；与库存查询快照隔离 */
+/** 全链库存（飞书宽表 tblXXXXXXXX）每日发布批次；与库存查询快照隔离 */
 export const procurementOpsSnapshotRuns = pgTable(
   'procurement_ops_snapshot_runs',
   {

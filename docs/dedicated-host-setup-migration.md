@@ -1,6 +1,9 @@
-# 专用机从零安装与迁移指南（Win11 + Docker + Cloudflare Tunnel）
+﻿# 专用机从零安装与迁移指南（Win11 + Docker + Cloudflare Tunnel）
 
-> **适用**：一台**全新、干净**的 Win11 专用电脑，安装 scm-agent 并对外提供 `https://scm.al6s.cn`（域名示例，可替换）。  
+> **内部运维参考**：对外部署见 [docs/external-share/deployment-guide.md](./external-share/deployment-guide.md)（路径相对 docs 目录时请自行调整）。
+
+
+> **适用**：一台**全新、干净**的 Win11 专用电脑，安装 scm-agent 并对外提供 `https://scm.example.com`（域名示例，可替换）。  
 > **包含**：系统准备、代码迁移、数据库策略、Docker 公网配置、**cloudflared 完整配置**、验收与安全。  
 > **详细 Tunnel 运维**：见 [win11-cloudflare-tunnel-deploy.md](./win11-cloudflare-tunnel-deploy.md)
 
@@ -13,7 +16,7 @@
 阶段 1  安装 Docker / Git /（可选）Node+pnpm
 阶段 2  迁移项目代码到专用机
 阶段 3  配置公网环境变量并启动 Docker
-阶段 4  安装 cloudflared、创建 Tunnel、绑定 scm.al6s.cn
+阶段 4  安装 cloudflared、创建 Tunnel、绑定 scm.example.com
 阶段 5  Cloudflare Access 门禁 + 验收
 阶段 6  开机自启与备份
 ```
@@ -57,8 +60,8 @@
 
 | 材料 | 用途 |
 |------|------|
-| Cloudflare 账号 | 管理 `al6s.cn`、Tunnel、Access |
-| 域名 `al6s.cn` 已在 Cloudflare | NS 已指向 Cloudflare |
+| Cloudflare 账号 | 管理 `example.com`、Tunnel、Access |
+| 域名 `example.com` 已在 Cloudflare | NS 已指向 Cloudflare |
 | Git 仓库地址 + 凭据 | `git clone`（或 U 盘拷贝 zip） |
 | （可选）飞书开放平台 App ID/Secret | 正式登录 |
 | （可选）旧机数据库备份 | 若要保留旧数据，见阶段 2B |
@@ -235,7 +238,7 @@ notepad docker-compose.public.yml
 services:
   web:
     environment:
-      APP_BASE_URL: https://scm.al6s.cn
+      APP_BASE_URL: https://scm.example.com
       AUTH_DEV_MODE: "true"          # 内测；对外改 false + 飞书
       JWT_SECRET: <上一步生成的值>
       CRON_SECRET: <上一步生成的值>
@@ -247,7 +250,7 @@ services:
       AUTH_DEV_MODE: "false"
       FEISHU_APP_ID: cli_xxxx
       FEISHU_APP_SECRET: xxxx
-      FEISHU_OAUTH_REDIRECT_URI: https://scm.al6s.cn/api/auth/feishu/callback
+      FEISHU_OAUTH_REDIRECT_URI: https://scm.example.com/api/auth/feishu/callback
 ```
 
 ### 3.3 首次构建启动
@@ -290,19 +293,19 @@ docker compose logs -f web
 cloudflared tunnel login
 ```
 
-浏览器打开 → 选择 **al6s.cn** → 授权。  
+浏览器打开 → 选择 **example.com** → 授权。  
 成功后生成：`C:\Users\<你>\.cloudflared\cert.pem`
 
 ### 4.2 创建 Tunnel
 
 ```powershell
-cloudflared tunnel create scm-al6s
+cloudflared tunnel create scm-tunnel
 ```
 
 记录输出，例如：
 
 ```text
-Created tunnel scm-al6s with id a1b2c3d4-e5f6-7890-abcd-ef1234567890
+Created tunnel scm-tunnel with id a1b2c3d4-e5f6-7890-abcd-ef1234567890
 ```
 
 credentials 文件路径：
@@ -327,11 +330,11 @@ notepad "$env:USERPROFILE\.cloudflared\config.yml"
 内容（**按实际替换** `<USERNAME>`、`<TUNNEL-ID>`）：
 
 ```yaml
-tunnel: scm-al6s
+tunnel: scm-tunnel
 credentials-file: C:\Users\<USERNAME>\.cloudflared\<TUNNEL-ID>.json
 
 ingress:
-  - hostname: scm.al6s.cn
+  - hostname: scm.example.com
     service: http://localhost:8081
   - service: http_status:404
 ```
@@ -347,7 +350,7 @@ cloudflared tunnel ingress validate
 ### 4.4 绑定 DNS
 
 ```powershell
-cloudflared tunnel route dns scm-al6s scm.al6s.cn
+cloudflared tunnel route dns scm-tunnel scm.example.com
 ```
 
 Cloudflare 控制台 **DNS → Records** 应出现：
@@ -359,15 +362,15 @@ Cloudflare 控制台 **DNS → Records** 应出现：
 ### 4.5 试跑 Tunnel
 
 ```powershell
-cloudflared tunnel run scm-al6s
+cloudflared tunnel run scm-tunnel
 ```
 
-保持窗口打开，手机或同事电脑访问：**https://scm.al6s.cn**
+保持窗口打开，手机或同事电脑访问：**https://scm.example.com**
 
 同时检查：
 
 ```powershell
-curl.exe -s https://scm.al6s.cn/api/health
+curl.exe -s https://scm.example.com/api/health
 ```
 
 ### 4.6 安装 Windows 服务（长期运行）
@@ -407,7 +410,7 @@ Get-Service cloudflared
 1. https://one.dash.cloudflare.com → **Access → Applications → Add**
 2. **Self-hosted** → Application name: `scm-agent`
 3. **Session Duration**: 24h（按需）
-4. **Application domain**: `scm.al6s.cn`
+4. **Application domain**: `scm.example.com`
 5. **Add a policy** → Action: **Allow**
    - Include: **Emails** → 同事邮箱，或 **Emails ending in** → `@yourcompany.com`
 6. **Identity providers**: 启用 **One-time PIN**（邮箱验证码）
@@ -417,7 +420,7 @@ Get-Service cloudflared
 ### 5.3 飞书 OAuth（与 Access 可叠加）
 
 1. 飞书开放平台 → 应用 → 安全设置 → **重定向 URL**：
-   `https://scm.al6s.cn/api/auth/feishu/callback`
+   `https://scm.example.com/api/auth/feishu/callback`
 2. `docker-compose.public.yml` 设 `AUTH_DEV_MODE: "false"` 并填 `FEISHU_*`
 3. 重建：
 
@@ -443,7 +446,7 @@ docker compose -f docker-compose.yml -f docker-compose.public.yml up -d --force-
 ```powershell
 docker compose ps
 Get-Service cloudflared
-curl.exe -s https://scm.al6s.cn/api/health
+curl.exe -s https://scm.example.com/api/health
 ```
 
 ### 6.2 定期备份数据库
@@ -471,12 +474,12 @@ docker compose exec -T postgres pg_dump -U scm scm_dev > "D:\backup\scm_dev_$dat
 
 在**专用机**和**同事电脑**各测一遍：
 
-- [ ] https://scm.al6s.cn 可打开（非 502）
-- [ ] https://scm.al6s.cn/api/health → JSON，`db` 正常
+- [ ] https://scm.example.com 可打开（非 502）
+- [ ] https://scm.example.com/api/health → JSON，`db` 正常
 - [ ] Cloudflare Access 仅允许授权邮箱（若已配置）
 - [ ] 菜单、看板、合规等页面无 403 空白
 - [ ] 专用机重启后 5 分钟内公网恢复
-- [ ] `APP_BASE_URL` 为 `https://scm.al6s.cn`（F12 无 localhost API 请求）
+- [ ] `APP_BASE_URL` 为 `https://scm.example.com`（F12 无 localhost API 请求）
 - [ ] Postgres 5432 **未**在路由器做端口转发
 
 ---
@@ -490,7 +493,7 @@ docker compose exec -T postgres pg_dump -U scm scm_dev > "D:\backup\scm_dev_$dat
 | `cloudflared` 服务起不来 | 检查 `config.yml` 路径、credentials json 是否存在；`cloudflared tunnel ingress validate` |
 | 服务安装后找不到配置 | 用**自动登录同一用户**执行 `service install` |
 | 页面旧 / API 404 | `docker compose ... up -d --build`；浏览器 Ctrl+F5 |
-| Access 循环跳转 | Access 应用域名与 `scm.al6s.cn` 完全一致 |
+| Access 循环跳转 | Access 应用域名与 `scm.example.com` 完全一致 |
 | 飞书 redirect_uri 错误 | 飞书后台 URL 与 `FEISHU_OAUTH_REDIRECT_URI` 字符级一致 |
 
 ---
@@ -513,15 +516,15 @@ curl.exe -s http://localhost:8081/api/health
 
 # === 4. cloudflared ===
 cloudflared tunnel login
-cloudflared tunnel create scm-al6s
+cloudflared tunnel create scm-tunnel
 notepad $env:USERPROFILE\.cloudflared\config.yml   # 见 deploy/dedicated-host/cloudflared.config.example.yml
-cloudflared tunnel route dns scm-al6s scm.al6s.cn
-cloudflared tunnel run scm-al6s                    # 试通后 Ctrl+C
+cloudflared tunnel route dns scm-tunnel scm.example.com
+cloudflared tunnel run scm-tunnel                    # 试通后 Ctrl+C
 cloudflared service install
 cloudflared service start
 
 # === 5. 公网验证 ===
-curl.exe -s https://scm.al6s.cn/api/health
+curl.exe -s https://scm.example.com/api/health
 ```
 
 ---

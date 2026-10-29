@@ -1,0 +1,6 @@
+sku_code,name,unit,category,merchant_code,merchant_name,lead_time_days,moq,unit_cost
+DEMO-SKU-001,Demo Product Alpha,pcs,演示品类/项目组A,DEMO-M01,Demo Merchant 1,45,10,20.00
+DEMO-SKU-002,Demo Product Beta,pcs,演示品类/项目组A,DEMO-M02,Demo Merchant 2,50,12,23.00
+DEMO-SKU-003,Demo Product Gamma,pcs,演示品类/项目组B,DEMO-M03,Demo Merchant 3,55,14,26.00
+DEMO-SKU-004,Demo Product Delta,pcs,演示品类/项目组B,DEMO-M04,Demo Merchant 4,60,16,29.00
+DEMO-SKU-005,Demo Product Epsilon,pcs,演示品类/项目组C,DEMO-M05,Demo Merchant 5,65,18,32.00

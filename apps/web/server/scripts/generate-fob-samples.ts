@@ -10,16 +10,16 @@ const __dirname = dirname(fileURLToPath(import.meta.url));
 const OUT_DIR = join(__dirname, '../../../../docs/samples/fob');
 
 const MERCHANTS = [
-  '傲杰科技国际有限公司',
-  '郑州傲杰',
-  '贝斯旺国际有限公司',
-  '厦门鹭泓森供应链有限公司',
+  'Demo Merchant Ltd.',
+  'Demo Merchant East Co.',
+  'Demo Merchant West Inc.',
+  'Demo Trading Entity A',
 ];
 
 const FACTORIES = [
-  '曹县海庆家具有限公司',
-  '厦门鹭泓森供应链有限公司',
-  '泉州恒美家居有限公司',
+  '演示工厂 A',
+  '演示工厂 B',
+  '演示工厂 C',
 ];
 
 const DEST_PORTS = ['汉堡', '鹿特丹', '安特卫普', '费利克斯托', '洛杉矶'];

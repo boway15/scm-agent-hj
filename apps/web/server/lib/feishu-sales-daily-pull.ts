@@ -8,17 +8,14 @@ import { getShanghaiBusinessDate } from './inventory-daily-snapshot.js';
 import { persistDailySalesRowsAsHistory } from './sales-history-import.js';
 import { refreshSkuLifecycles } from './sku-lifecycle.js';
 
-/** 产品销售报表-长表。可用 FEISHU_BITABLE_TABLE_SALES_DAILY 覆盖。 */
-export const DEFAULT_SALES_DAILY_TABLE_ID = 'tbl6autzkb5vMqHx';
-
+/** 须配置 FEISHU_BITABLE_TABLE_SALES_DAILY；无默认生产表 ID */
 export function getFeishuSalesDailyBitableConfig(): {
   configured: boolean;
   appToken?: string;
   tableId?: string;
 } {
   const appToken = getBitableAppToken('inventory_turnover');
-  const tableId =
-    process.env.FEISHU_BITABLE_TABLE_SALES_DAILY?.trim() || DEFAULT_SALES_DAILY_TABLE_ID;
+  const tableId = process.env.FEISHU_BITABLE_TABLE_SALES_DAILY?.trim() || undefined;
   return {
     configured: Boolean(appToken && tableId),
     appToken,
@@ -30,7 +27,7 @@ export async function pullSalesDailyFromFeishu(now: Date = new Date()) {
   const config = getFeishuSalesDailyBitableConfig();
   if (!config.configured || !config.appToken || !config.tableId) {
     throw new Error(
-      '销量长表飞书多维表格未配置（需 FEISHU_BITABLE_PROCUREMENT_APP_TOKEN 或 FEISHU_BITABLE_APP_TOKEN，与库存周转相同）',
+      '销量长表飞书多维表格未配置（需 FEISHU_BITABLE_PROCUREMENT_APP_TOKEN 或 FEISHU_BITABLE_APP_TOKEN，以及 FEISHU_BITABLE_TABLE_SALES_DAILY）',
     );
   }
 

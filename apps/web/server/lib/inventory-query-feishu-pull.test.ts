@@ -1,18 +1,14 @@
 import assert from 'node:assert/strict';
 import { describe, it } from 'node:test';
-import {
-  DEFAULT_INVENTORY_QUERY_TABLE_ID,
-  getInventoryQueryBitableConfig,
-} from './inventory-query-feishu-pull.js';
+import { getInventoryQueryBitableConfig } from './inventory-query-feishu-pull.js';
 
 describe('inventory-query-feishu-pull config', () => {
-  it('defaults table id to the known Feishu detail table', () => {
+  it('requires env table id (no hardcoded production default)', () => {
     const prev = process.env.FEISHU_BITABLE_TABLE_INVENTORY_QUERY;
     delete process.env.FEISHU_BITABLE_TABLE_INVENTORY_QUERY;
     try {
       const config = getInventoryQueryBitableConfig();
-      assert.equal(config.tableId, DEFAULT_INVENTORY_QUERY_TABLE_ID);
-      assert.equal(config.tableId, 'tblubb08s6pe6DXI');
+      assert.equal(config.tableId, undefined);
     } finally {
       if (prev == null) delete process.env.FEISHU_BITABLE_TABLE_INVENTORY_QUERY;
       else process.env.FEISHU_BITABLE_TABLE_INVENTORY_QUERY = prev;

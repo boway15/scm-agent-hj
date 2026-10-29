@@ -11,17 +11,14 @@ import {
   type ProcurementOpsSnapshotItem,
 } from './procurement-ops-snapshot.js';
 
-export const DEFAULT_PROCUREMENT_OPS_TABLE_ID = 'tblWUnYLwD8UATAS';
-
+/** 须配置 FEISHU_BITABLE_TABLE_PROCUREMENT_OPS；无默认生产表 ID */
 export function getProcurementOpsBitableConfig(): {
   configured: boolean;
   appToken?: string;
   tableId?: string;
 } {
   const appToken = getBitableAppToken('inventory_turnover');
-  const tableId =
-    process.env.FEISHU_BITABLE_TABLE_PROCUREMENT_OPS?.trim() ||
-    DEFAULT_PROCUREMENT_OPS_TABLE_ID;
+  const tableId = process.env.FEISHU_BITABLE_TABLE_PROCUREMENT_OPS?.trim() || undefined;
   return {
     configured: Boolean(appToken && tableId),
     appToken,

@@ -34,8 +34,9 @@ const SECTIONS: HelpSection[] = [
           <Link to="/inventory/overview?import=1" className="text-primary hover:underline">库存周转</Link>
           导入库存周转 xlsx，再在{' '}
           <Link to="/data/sales?import=1" className="text-primary hover:underline">销量历史</Link>
-          导入日销量宽表 CSV；样例见 <code className="rounded bg-muted px-1">docs/samples/import-fob/</code> 与{' '}
-          <code className="rounded bg-muted px-1">docs/samples/xiaoshou/</code>。
+          导入日销量宽表 CSV；合成演示样例见{' '}
+          <code className="rounded bg-muted px-1">docs/samples/demo/</code>（运行{' '}
+          <code className="rounded bg-muted px-1">pnpm samples:demo</code>）。
         </li>
         <li>
           <Link to="/data/products" className="text-primary hover:underline">商品主数据</Link>
@@ -51,7 +52,7 @@ const SECTIONS: HelpSection[] = [
         </li>
         <li>
           手动触发补货预测（需 CRON 权限）：<code className="rounded bg-muted px-1">POST /api/tasks/replenishment-forecast</code>，随后在{' '}
-          <Link to="/pmc/suggestions" className="text-primary hover:underline">补货建议</Link> 导出清单，在迅捷 ERP 下单。
+          <Link to="/pmc/suggestions" className="text-primary hover:underline">补货建议</Link> 导出清单，在贵司 ERP 下单。
         </li>
         <li>
           <Link to="/procurement/follow-up" className="text-primary hover:underline">采购跟单</Link>

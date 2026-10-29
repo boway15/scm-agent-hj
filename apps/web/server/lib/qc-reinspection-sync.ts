@@ -18,10 +18,18 @@ import {
   type QcSourceSnapshot,
 } from './qc-reinspection-plan.js';
 
-const DEFAULT_APP_TOKEN = 'QWc8bLj05annNashYaYccebYnjg';
-const DEFAULT_SOURCE_TABLE = 'tblM3ast4z4Kskez';
-const DEFAULT_SOURCE_VIEW = 'vewmGvIyW3';
-const DEFAULT_TARGET_TABLE = 'tblblV2ZfYda0Lnn';
+export type QcReinspectionBitableConfig = {
+  appToken: string;
+  sourceTableId: string;
+  sourceViewId: string;
+  targetTableId: string;
+};
+
+export function isQcReinspectionConfigured(config: QcReinspectionBitableConfig): boolean {
+  return Boolean(
+    config.appToken && config.sourceTableId && config.sourceViewId && config.targetTableId,
+  );
+}
 
 const DATE_TIME_FIELD = {
   type: 5,
@@ -61,12 +69,12 @@ const TARGET_FIELDS: BitableFieldCreateInput[] = [
   { field_name: '跟单货好时间-期望出货时间差', type: 2, property: { formatter: '0' } },
 ];
 
-export function getQcReinspectionConfig() {
+export function getQcReinspectionConfig(): QcReinspectionBitableConfig {
   return {
-    appToken: process.env.FEISHU_BITABLE_QC_APP_TOKEN?.trim() || DEFAULT_APP_TOKEN,
-    sourceTableId: process.env.FEISHU_BITABLE_TABLE_QC_FOLLOW_UP?.trim() || DEFAULT_SOURCE_TABLE,
-    sourceViewId: process.env.FEISHU_BITABLE_VIEW_QC_REINSPECTION?.trim() || DEFAULT_SOURCE_VIEW,
-    targetTableId: process.env.FEISHU_BITABLE_TABLE_QC_REINSPECTION?.trim() || DEFAULT_TARGET_TABLE,
+    appToken: process.env.FEISHU_BITABLE_QC_APP_TOKEN?.trim() || '',
+    sourceTableId: process.env.FEISHU_BITABLE_TABLE_QC_FOLLOW_UP?.trim() || '',
+    sourceViewId: process.env.FEISHU_BITABLE_VIEW_QC_REINSPECTION?.trim() || '',
+    targetTableId: process.env.FEISHU_BITABLE_TABLE_QC_REINSPECTION?.trim() || '',
   };
 }
 
@@ -228,8 +236,14 @@ async function upsertLocalRow(
     });
 }
 
+const QC_REINSPECTION_NOT_CONFIGURED =
+  'QC 复检飞书多维表格未配置：请设置 FEISHU_BITABLE_QC_APP_TOKEN、FEISHU_BITABLE_TABLE_QC_FOLLOW_UP、FEISHU_BITABLE_VIEW_QC_REINSPECTION、FEISHU_BITABLE_TABLE_QC_REINSPECTION';
+
 export async function syncQcReinspection() {
   const config = getQcReinspectionConfig();
+  if (!isQcReinspectionConfigured(config)) {
+    throw new Error(QC_REINSPECTION_NOT_CONFIGURED);
+  }
   await ensureBitableFields(config.appToken, config.targetTableId, TARGET_FIELDS);
 
   const [targetRecords, sourceRecords, localFactories] = await Promise.all([
@@ -365,6 +379,15 @@ function businessMatchKey(parts: {
  */
 export async function backfillQcReinspectionTransferOrderNo() {
   const config = getQcReinspectionConfig();
+  if (!isQcReinspectionConfigured(config)) {
+    return {
+      updatedLocal: 0,
+      updatedFeishu: 0,
+      matchedBySourceId: 0,
+      matchedByBusinessKey: 0,
+      missingSource: 0,
+    };
+  }
   await ensureBitableFields(config.appToken, config.targetTableId, TARGET_FIELDS);
 
   const emptyRows = await db

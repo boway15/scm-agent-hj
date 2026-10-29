@@ -1,7 +1,8 @@
 # 服务器本地部署清单（Win11 专用机）
 
-> **适用**：在服务器 `172.16.21.128`（用户 `5N7D2B3`）上**直接**部署，不依赖 SSH / Cursor Remote。  
-> **公网域名**：`https://scm.al6s.cn`  
+> **内部运维**：含内网 IP / 账号等占位信息，对外共享请用 [external-share/deployment-guide.md](./external-share/deployment-guide.md)。  
+> **适用**：在专用 Win11 服务器上**直接**部署，不依赖 SSH / Cursor Remote。  
+> **公网域名**：按实际填写（示例：`https://scm.example.com`）  
 > **日常发布 SOP**： [local-server-release-sop.md](./local-server-release-sop.md)  
 > **完整说明**： [dedicated-host-setup-migration.md](./dedicated-host-setup-migration.md)
 
@@ -9,7 +10,7 @@
 
 ## 部署前准备
 
-- [ ] Cloudflare 已添加域名 `al6s.cn`，NS 已切换
+- [ ] Cloudflare 已添加域名 `example.com`，NS 已切换
 - [ ] Git 仓库地址（或 U 盘拷贝项目）
 - [ ] 服务器已插网线、能上网
 - [ ] 设置 → 电源 → **睡眠/休眠：从不**
@@ -99,7 +100,7 @@ notepad docker-compose.public.yml
 **必改项**：
 
 ```yaml
-APP_BASE_URL: https://scm.al6s.cn
+APP_BASE_URL: https://scm.example.com
 JWT_SECRET: <第1次生成的随机串>
 CRON_SECRET: <第2次生成的随机串>
 AUTH_REQUIRE_LOGIN: "true"
@@ -108,7 +109,7 @@ FEISHU_AUTH_ENABLED: "true"
 BOOTSTRAP_ADMIN_PASSWORD: <强密码>
 FEISHU_APP_ID: cli_xxxx
 FEISHU_APP_SECRET: xxxx
-FEISHU_OAUTH_REDIRECT_URI: https://scm.al6s.cn/api/auth/feishu/callback
+FEISHU_OAUTH_REDIRECT_URI: https://scm.example.com/api/auth/feishu/callback
 ```
 
 ---
@@ -141,9 +142,9 @@ curl.exe -s http://localhost:8081/api/health
 
 ```powershell
 cloudflared tunnel login
-# 浏览器选 al6s.cn 授权
+# 浏览器选 example.com 授权
 
-cloudflared tunnel create scm-al6s
+cloudflared tunnel create scm-tunnel
 cloudflared tunnel list
 # 记下 Tunnel ID
 ```
@@ -158,11 +159,11 @@ notepad "$env:USERPROFILE\.cloudflared\config.yml"
 内容（**替换用户名和 Tunnel ID**）：
 
 ```yaml
-tunnel: scm-al6s
-credentials-file: C:\Users\5N7D2B3\.cloudflared\<TUNNEL-ID>.json
+tunnel: scm-tunnel
+credentials-file: C:\Users\<你>\.cloudflared\<TUNNEL-ID>.json
 
 ingress:
-  - hostname: scm.al6s.cn
+  - hostname: scm.example.com
     service: http://localhost:8081
   - service: http_status:404
 ```
@@ -172,16 +173,16 @@ ingress:
 ### 5.3 绑定 DNS
 
 ```powershell
-cloudflared tunnel route dns scm-al6s scm.al6s.cn
+cloudflared tunnel route dns scm-tunnel scm.example.com
 ```
 
 ### 5.4 试跑
 
 ```powershell
-cloudflared tunnel run scm-al6s
+cloudflared tunnel run scm-tunnel
 ```
 
-另开浏览器访问：https://scm.al6s.cn/api/health
+另开浏览器访问：https://scm.example.com/api/health
 
 ### 5.5 安装 Windows 服务（长期运行）
 
@@ -204,7 +205,7 @@ Get-Service cloudflared
 ### A. Cloudflare Access（推荐叠加）
 
 1. https://one.dash.cloudflare.com → Access → Applications → Add
-2. Self-hosted → Domain: `scm.al6s.cn`
+2. Self-hosted → Domain: `scm.example.com`
 3. Policy → Allow → 同事邮箱 / 邮箱域名
 4. Identity: One-time PIN
 
@@ -216,7 +217,7 @@ Get-Service cloudflared
 FEISHU_AUTH_ENABLED: "true"
 FEISHU_APP_ID: cli_xxxx
 FEISHU_APP_SECRET: xxxx
-FEISHU_OAUTH_REDIRECT_URI: https://scm.al6s.cn/api/auth/feishu/callback
+FEISHU_OAUTH_REDIRECT_URI: https://scm.example.com/api/auth/feishu/callback
 ```
 
 飞书开放平台添加相同回调 URL，然后：
@@ -230,8 +231,8 @@ docker compose -f docker-compose.yml -f docker-compose.public.yml up -d --force-
 ## 阶段 7：验收
 
 - [ ] http://localhost:8081 正常
-- [ ] https://scm.al6s.cn 正常（非 502）
-- [ ] https://scm.al6s.cn/api/health → JSON
+- [ ] https://scm.example.com 正常（非 502）
+- [ ] https://scm.example.com/api/health → JSON
 - [ ] 侧边栏菜单有数据
 - [ ] Cloudflare Access 或飞书登录已启用
 - [ ] 重启服务器后 5 分钟内公网可访问
@@ -239,7 +240,7 @@ docker compose -f docker-compose.yml -f docker-compose.public.yml up -d --force-
 ```powershell
 docker compose ps
 Get-Service cloudflared
-curl.exe -s https://scm.al6s.cn/api/health
+curl.exe -s https://scm.example.com/api/health
 ```
 
 ---
@@ -279,15 +280,15 @@ curl.exe -s http://localhost:8081/api/health
 
 # === Tunnel ===
 cloudflared tunnel login
-cloudflared tunnel create scm-al6s
+cloudflared tunnel create scm-tunnel
 notepad $env:USERPROFILE\.cloudflared\config.yml
-cloudflared tunnel route dns scm-al6s scm.al6s.cn
-cloudflared tunnel run scm-al6s
+cloudflared tunnel route dns scm-tunnel scm.example.com
+cloudflared tunnel run scm-tunnel
 cloudflared service install
 cloudflared service start
 
 # === 验收 ===
-curl.exe -s https://scm.al6s.cn/api/health
+curl.exe -s https://scm.example.com/api/health
 ```
 
 ---

@@ -1,5 +1,6 @@
 # 本地服务器版发布 SOP
 
+> **内部运维**：含历史域名、仓库地址等，**勿原样随对外源码包交付**。对外部署见 [external-share/deployment-guide.md](./external-share/deployment-guide.md)。  
 > **适用**：scm-agent 运行在 Win11 专用服务器，公网经 Cloudflare Tunnel 访问。  
 > **部署基线（默认）**：日常只维护本 SOP；**不要** `pnpm zip:miaoda` / 妙搭导入。  
 > **首次安装**：见 [dedicated-host-server-checklist.md](./dedicated-host-server-checklist.md)  
@@ -12,12 +13,12 @@
 | 项 | 当前值 |
 |----|--------|
 | 服务器路径 | `D:\projects\scm-agent` |
-| Git 仓库 | https://github.com/boway15/scmgent.git |
-| 公网地址 | https://scm.al6s.cn |
+| Git 仓库 | `<你的私有仓库 URL>` |
+| 公网地址 | https://scm.example.com |
 | 本机地址 | http://localhost:8081 |
 | Docker 项目名 | `scm-agent`（`-p scm-agent`） |
 | 公网配置 | `docker-compose.public.yml`（不进 Git） |
-| Tunnel 配置 | `C:\Users\5N7D2B3\.cloudflared\config.yml` |
+| Tunnel 配置 | `C:\Users\<你>\.cloudflared\config.yml` |
 
 ---
 
@@ -28,7 +29,7 @@
        ↓
 专用服务器 git pull → docker compose build/up
        ↓
-localhost:8081 ← cloudflared ← https://scm.al6s.cn
+localhost:8081 ← cloudflared ← https://scm.example.com
 ```
 
 ---
@@ -69,12 +70,12 @@ docker compose -p scm-agent -f docker-compose.yml -f docker-compose.public.yml u
 ```powershell
 docker compose -p scm-agent ps
 curl.exe -s http://localhost:8081/api/health
-curl.exe -s https://scm.al6s.cn/api/health
+curl.exe -s https://scm.example.com/api/health
 ```
 
 浏览器：
 
-- [ ] https://scm.al6s.cn 首页正常
+- [ ] https://scm.example.com 首页正常
 - [ ] 登录 / 菜单可加载
 - [ ] 本次改动涉及的核心页面可操作
 
@@ -145,7 +146,7 @@ curl.exe -s http://localhost:8081/api/health
 
 | 变量 | 说明 |
 |------|------|
-| `APP_BASE_URL` | 必须与公网域名一致，如 `https://scm.al6s.cn` |
+| `APP_BASE_URL` | 必须与公网域名一致，如 `https://scm.example.com` |
 | `AUTH_REQUIRE_LOGIN` | `"true"` 必须登录 |
 | `EMAIL_AUTH_ENABLED` | `"true"` 邮箱注册/登录 |
 | `FEISHU_AUTH_ENABLED` | `"true"` + `FEISHU_APP_ID/SECRET` 启用飞书登录 |
@@ -178,7 +179,7 @@ cd D:\projects\scm-agent
 git log --oneline -5
 git checkout <上一个稳定 commit>
 docker compose -p scm-agent -f docker-compose.yml -f docker-compose.public.yml up -d --build
-curl.exe -s https://scm.al6s.cn/api/health
+curl.exe -s https://scm.example.com/api/health
 ```
 
 确认稳定后，开发机修复再发新版；必要时 `git checkout main` 继续开发。
@@ -238,7 +239,7 @@ Restart-Service cloudflared
 
 ```powershell
 Restart-Service cloudflared
-curl.exe -s https://scm.al6s.cn/api/health
+curl.exe -s https://scm.example.com/api/health
 ```
 
 ### 6.3 公网 502
@@ -296,7 +297,7 @@ docker stats
 **发布后**
 
 - [ ] http://localhost:8081/api/health OK  
-- [ ] https://scm.al6s.cn/api/health OK  
+- [ ] https://scm.example.com/api/health OK  
 - [ ] 核心页面冒烟通过  
 - [ ] （若对外）Cloudflare Access / 飞书登录正常  
 

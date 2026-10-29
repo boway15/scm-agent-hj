@@ -1,4 +1,4 @@
-# [家具/创新]_大件备货·待供应商确认超1天
+﻿# [家具/创新]_大件备货·待供应商确认超1天
 
 从飞书多维表格 **大件备货申请** 拉取「待供应商确认」且**恰好超 1 天（前天当天）**的记录，由**采购跟进**催办，推送飞书群机器人。
 
@@ -13,7 +13,7 @@
 | 跟进人 | 采购 |
 | 本地筛选 | **前天当天**。例：今天 `7/17` → 只统计 **`7/15`**；`7/14` 及之前归超 2 天提醒 |
 | 推送格式 | 橙色卡片 **待供应商确认 · 超1天**；正文含「采购跟进」 |
-| 查看明细 | [超1日视图](https://chinabestwo.feishu.cn/base/HPJzbHdPea7elSs92T8c31BTnxe?table=tbl7H8F6rc2xeFGf&view=vewZxNTnEj) |
+| 查看明细 | [超1日视图](https://example.feishu.cn/base/bascnXXXXXXXX?table=tblAAAAAAAA&view=vewWWWWWWWW) |
 | 定时 | 工作日 **09:10** |
 
 ### 与超 2 天提醒对比
@@ -24,7 +24,7 @@
 | 跟进人 | 采购 | 采购 |
 | 日期窗口 | 大前天及之前（今天 7/17 → **7/14 及之前**） | 前天当天（今天 7/17 → **仅 7/15**） |
 | 卡片 | 红色「待供应商确认 · 超2天」 | 橙色「待供应商确认 · 超1天」 |
-| 查看明细 | `view=vewLM617rt` | `view=vewZxNTnEj` |
+| 查看明细 | `view=vewZZZZZZZZ` | `view=vewWWWWWWWW` |
 | 定时 | 工作日 09:00 | 工作日 09:10 |
 
 ### 消息示例
@@ -37,7 +37,7 @@
 
 **CZHD** 12条
 
-[查看明细](https://chinabestwo.feishu.cn/base/HPJzbHdPea7elSs92T8c31BTnxe?table=tbl7H8F6rc2xeFGf&view=vewZxNTnEj)
+[查看明细](https://example.feishu.cn/base/bascnXXXXXXXX?table=tblAAAAAAAA&view=vewWWWWWWWW)
 ```
 
 ## 节点链路
