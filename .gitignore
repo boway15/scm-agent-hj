@@ -79,3 +79,7 @@ sites/**/node_modules/
 sites/**/dist/
 
 *.tsbuildinfo
+
+# local git-filter-repo / embed python (do not commit)
+tools/
+
