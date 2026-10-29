@@ -25,7 +25,7 @@
 | CPU | 2 核+ |
 | 内存 | **≥ 8GB**（web 容器 `NODE_OPTIONS=4096MB` + Postgres + 构建缓存） |
 | 磁盘 | ≥ 30GB 可用（镜像 + `pgdata` / `costingdata` 卷） |
-| 端口 | **8081**（业务）；5432 建议仅本机（见 [docker-compose.linux.example.yml](../../docker-compose.linux.example.yml)） |
+| 端口 | **8081**（业务）；5432 建议仅本机（见 [docker-compose.linux.example.yml](../../deploy/docker-compose.linux.example.yml)） |
 
 ---
 
@@ -87,14 +87,14 @@ docker compose up -d --build
 生产建议叠加 Linux override（收紧 Postgres 端口、时区）：
 
 ```bash
-cp docker-compose.linux.example.yml docker-compose.linux.yml
+cp deploy/docker-compose.linux.example.yml docker-compose.linux.yml
 docker compose -f docker-compose.yml -f docker-compose.linux.yml up -d --build
 ```
 
 公网 + HTTPS + 飞书登录时，再叠加（见 [deployment-guide.md](./deployment-guide.md) 第 5 节）：
 
 ```bash
-cp docker-compose.public.example.yml docker-compose.public.yml
+cp deploy/docker-compose.public.example.yml docker-compose.public.yml
 # 编辑域名与 FEISHU_OAUTH_REDIRECT_URI
 docker compose -f docker-compose.yml -f docker-compose.linux.yml -f docker-compose.public.yml up -d --build
 ```

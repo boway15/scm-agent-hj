@@ -1,4 +1,4 @@
-# 服务器本地部署清单（Win11 专用机）
+﻿# 服务器本地部署清单（Win11 专用机）
 
 > **内部运维**：含内网 IP / 账号等占位信息，对外共享请用 [external-share/deployment-guide.md](./external-share/deployment-guide.md)。  
 > **适用**：在专用 Win11 服务器上**直接**部署，不依赖 SSH / Cursor Remote。  
@@ -93,7 +93,7 @@ cd D:\scm-agent
 
 ```powershell
 cd D:\scm-agent
-copy docker-compose.public.example.yml docker-compose.public.yml
+copy deploy\docker-compose.public.example.yml docker-compose.public.yml
 notepad docker-compose.public.yml
 ```
 
@@ -211,7 +211,7 @@ Get-Service cloudflared
 
 ### B. 飞书 OAuth
 
-`docker-compose.public.yml` 示例见 `docker-compose.public.example.yml`，关键项：
+`docker-compose.public.yml` 示例见 `deploy/docker-compose.public.example.yml`，关键项：
 
 ```yaml
 FEISHU_AUTH_ENABLED: "true"
@@ -272,7 +272,7 @@ docker compose exec -T postgres pg_dump -U scm scm_dev > D:\backup\scm_dev_%date
 ```powershell
 # === 项目 ===
 cd D:\scm-agent
-copy docker-compose.public.example.yml docker-compose.public.yml
+copy deploy\docker-compose.public.example.yml docker-compose.public.yml
 notepad docker-compose.public.yml
 
 docker compose -f docker-compose.yml -f docker-compose.public.yml up -d --build
@@ -300,4 +300,4 @@ curl.exe -s https://scm.example.com/api/health
 | 502 | `docker compose ps`；确认 localhost:8081 可访问 |
 | build 失败 | `docker compose logs web`；确认 Docker Desktop 在运行 |
 | Tunnel 断 | `Get-Service cloudflared`；`Restart-Service cloudflared` |
-| 菜单空 | 容器 entrypoint 会自动 seed；老库执行 `pnpm db:seed` 或见 z-docker-ops.md |
+| 菜单空 | 容器 entrypoint 会自动 seed；老库执行 `pnpm db:seed` 或见 docs/local-server-release-sop.md |

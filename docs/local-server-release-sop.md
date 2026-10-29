@@ -1,4 +1,4 @@
-# 本地服务器版发布 SOP
+﻿# 本地服务器版发布 SOP
 
 > **内部运维**：含历史域名、仓库地址等，**勿原样随对外源码包交付**。对外部署见 [external-share/deployment-guide.md](./external-share/deployment-guide.md)。  
 > **适用**：scm-agent 运行在 Win11 专用服务器，公网经 Cloudflare Tunnel 访问。  
@@ -333,7 +333,7 @@ docker stats
 |----|------------|----------------|
 | 发布 | git pull + docker compose | zip:miaoda + 导入 |
 | API 入口 | Hono 直连 8081 | NestJS + hono-app |
-| 文档 | 本文 + z-docker-ops.md | miaoda-import-checklist.md（归档） |
+| 文档 | 本文 + docs/external-share/deployment-guide.md | miaoda-import-checklist.md（归档） |
 
 ---
 
@@ -341,4 +341,4 @@ docker stats
 
 - [dedicated-host-server-checklist.md](./dedicated-host-server-checklist.md) — 首次安装  
 - [win11-cloudflare-tunnel-deploy.md](./win11-cloudflare-tunnel-deploy.md) — Tunnel 详解  
-- [../z-docker-ops.md](../z-docker-ops.md) — 改代码 / 重建速查  
+- [docs/local-server-release-sop.md](./local-server-release-sop.md) — 改代码 / 重建速查  

@@ -53,7 +53,7 @@ docker compose up -d --build
 Linux 生产可选：
 
 ```bash
-cp docker-compose.linux.example.yml docker-compose.linux.yml
+cp deploy/docker-compose.linux.example.yml docker-compose.linux.yml
 docker compose -f docker-compose.yml -f docker-compose.linux.yml up -d --build
 ```
 
@@ -134,7 +134,7 @@ DIFY_API_KEY_CS_REPLY_QUALITY=
 
 ## 5. 公网与 HTTPS（示例）
 
-1. 复制 `docker-compose.public.example.yml` → `docker-compose.public.yml`（后者已在 `.gitignore`）  
+1. 复制 `deploy/docker-compose.public.example.yml` → 根目录 `docker-compose.public.yml`（后者已在 `.gitignore`）  
 2. 将 `APP_BASE_URL`、`FEISHU_OAUTH_REDIRECT_URI` 改为接收方域名  
 3. 启动：
 

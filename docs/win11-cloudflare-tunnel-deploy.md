@@ -112,7 +112,7 @@ cd scm-agent
 复制示例并按域名修改：
 
 ```powershell
-copy docker-compose.public.example.yml docker-compose.public.yml
+copy deploy\docker-compose.public.example.yml docker-compose.public.yml
 # 编辑 docker-compose.public.yml：
 #   APP_BASE_URL → https://scm.example.com
 #   JWT_SECRET / CRON_SECRET → 强随机串
@@ -365,7 +365,7 @@ docker compose -f docker-compose.yml -f docker-compose.public.yml up -d --build
 | 飞书登录 redirect 错误 | 回调 URL 不一致 | 飞书后台与 `FEISHU_OAUTH_REDIRECT_URI` 完全一致 |
 | 国内访问慢 / 偶发超时 | Cloudflare 免费线路 | 内测可接受；长期可考虑国内 CDN 或云主机 |
 | 重启后不可用 | 未自动登录 / Docker 未自启 | 配置自动登录 + Docker「登录时启动」 |
-| 菜单空 / 403 | 未 seed | 容器内 migrate/seed 或参考 `z-docker-ops.md` |
+| 菜单空 / 403 | 未 seed | 容器内 migrate/seed 或参考 `docs/local-server-release-sop.md` |
 
 **响应诊断**（浏览器 F12 → Network）：
 
@@ -383,7 +383,7 @@ docker compose -f docker-compose.yml -f docker-compose.public.yml up -d --build
 
 推荐流程：开发机改完 → push → 专用机 `git pull` + rebuild；或 CI 构建镜像后专用机 `docker pull`（进阶）。
 
-本地 `z-docker-ops.md` 仍适用于开发机；专用机公网部署以本文 + `docker-compose.public.yml` 为准。
+日常开发机运维见 `docs/local-server-release-sop.md`；专用机公网部署以本文 + `docker-compose.public.yml` 为准。
 
 ---
 
@@ -392,7 +392,7 @@ docker compose -f docker-compose.yml -f docker-compose.public.yml up -d --build
 ```powershell
 # === 专用机首次部署 ===
 cd D:\scm-agent
-copy docker-compose.public.example.yml docker-compose.public.yml
+copy deploy\docker-compose.public.example.yml docker-compose.public.yml
 # 编辑 docker-compose.public.yml 中的域名与密钥
 
 docker compose -f docker-compose.yml -f docker-compose.public.yml up -d --build
@@ -417,6 +417,6 @@ cloudflared service start
 | 文件 | 说明 |
 |------|------|
 | `docker-compose.yml` | 基础编排，端口 8081，开发/专用机共用 |
-| `docker-compose.public.example.yml` | 公网 override 示例，复制为 `docker-compose.public.yml` 后修改 |
-| `z-docker-ops.md` | 本地 Docker 日常运维速查 |
+| `deploy/docker-compose.public.example.yml` | 公网 override 示例，复制为 `docker-compose.public.yml` 后修改 |
+| `docs/local-server-release-sop.md` | 日常发布 / 运维速查 |
 | 本文 | Win11 专用机 + Cloudflare Tunnel 完整方案 |

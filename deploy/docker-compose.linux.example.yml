@@ -1,7 +1,7 @@
 # Linux / CentOS 生产可选 override
 #
 # 用法：
-#   cp docker-compose.linux.example.yml docker-compose.linux.yml
+#   cp deploy/docker-compose.linux.example.yml docker-compose.linux.yml
 #   docker compose -f docker-compose.yml -f docker-compose.linux.yml up -d --build
 #
 # docker-compose.linux.yml 建议加入 .gitignore（若含环境相关调整）。

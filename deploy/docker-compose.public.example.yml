@@ -1,8 +1,8 @@
 # 公网 override 示例（Linux / Win11 + Nginx 或 Cloudflare Tunnel）
 #
 # 用法：
-#   copy docker-compose.public.example.yml docker-compose.public.yml
-#   编辑 docker-compose.public.yml（域名、密钥、飞书）
+#   cp deploy/docker-compose.public.example.yml docker-compose.public.yml
+#   编辑仓库根 docker-compose.public.yml（域名、密钥、飞书）
 #   docker compose -f docker-compose.yml -f docker-compose.public.yml up -d --build
 #
 # docker-compose.public.yml 已加入 .gitignore，避免密钥进仓库。

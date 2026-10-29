@@ -34,7 +34,7 @@
 - Modify `docker-compose.yml`
 - Modify `Dockerfile`
 - Modify `deploy/dedicated-host/cloudflared.config.example.yml`（注释）
-- Modify `z-docker-ops.md`（端口说明）
+- Modify deploy docs / `docs/local-server-release-sop.md`（端口说明）
 
 - [ ] web `ports: 8081:8081`，`PORT: 8081`
 - [ ] 增加 `cron` service（depends_on web，共享 `CRON_SECRET`）

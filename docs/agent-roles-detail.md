@@ -1,6 +1,6 @@
 # 多 Agent 角色详情
 
-> 精简版见根目录 `AGENTS.md`。需要某角色完整约束时 `@` 本文件或对应 Skill。  
+> 需要某角色完整约束时查阅本文件（Cursor Skill 仅本地，不随仓交付）。  
 > **部署基线**：自建 Docker（`docs/local-server-release-sop.md`）。妙搭 ZIP/CJS **已停用**。
 
 ## 1. 产品经理 (`pm`)

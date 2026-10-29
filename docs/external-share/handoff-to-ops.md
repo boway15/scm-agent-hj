@@ -136,7 +136,7 @@ cp .env.example .env && vi .env
 # 3. 启动
 docker compose up -d --build
 # 生产建议：
-# cp docker-compose.linux.example.yml docker-compose.linux.yml
+# cp deploy/docker-compose.linux.example.yml docker-compose.linux.yml
 # docker compose -f docker-compose.yml -f docker-compose.linux.yml up -d --build
 
 # 4. 防火墙

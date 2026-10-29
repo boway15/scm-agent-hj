@@ -14,6 +14,6 @@ curl -s http://127.0.0.1:8081/api/health
 生产建议：
 
 ```bash
-cp docker-compose.linux.example.yml docker-compose.linux.yml
+cp deploy/docker-compose.linux.example.yml docker-compose.linux.yml
 docker compose -f docker-compose.yml -f docker-compose.linux.yml up -d --build
 ```

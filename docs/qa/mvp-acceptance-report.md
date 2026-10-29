@@ -1,4 +1,4 @@
-# MVP 功能验收报告
+﻿# MVP 功能验收报告
 
 | 项目 | 跨境电商供应链智能体平台（SCM Agent） |
 |------|----------------------------------------|
@@ -152,7 +152,7 @@
 | D-FOB-06 | 中 | 重导账单清空异常审核成果 | P1：非 confirmed 合并保留 |
 | D-FOB-07 | 中 | 费用规则无管理 UI | P1 PRD |
 | D-FOB-08 | 低 | 种子规则仅初始化一次，已部署库不自动补规则 | P1 规则迁移 |
-| R-001 | 中 | Docker 改前端需 rebuild，用户易误以为 restart 即可 | 见 `z-docker-ops.md` |
+| R-001 | 中 | Docker 改前端需 rebuild，用户易误以为 restart 即可 | 见 `docs/local-server-release-sop.md` |
 
 ---
 

@@ -206,7 +206,7 @@ Get-Content D:\backup\scm_dev_backup.sql | docker compose exec -T postgres psql 
 docker compose -f docker-compose.yml -f docker-compose.public.yml up -d web
 ```
 
-> 导入后无需再跑 seed（除非菜单缺项，见 `z-docker-ops.md` 排错表）。
+> 导入后无需再跑 seed（除非菜单缺项，见 `docs/local-server-release-sop.md` 排错表）。
 
 ---
 
@@ -228,7 +228,7 @@ docker compose -f docker-compose.yml -f docker-compose.public.yml up -d web
 
 ```powershell
 cd D:\scm-agent
-copy docker-compose.public.example.yml docker-compose.public.yml
+copy deploy\docker-compose.public.example.yml docker-compose.public.yml
 notepad docker-compose.public.yml
 ```
 
@@ -507,7 +507,7 @@ git clone <仓库URL> scm-agent
 cd D:\scm-agent
 
 # === 2. 公网配置 ===
-copy docker-compose.public.example.yml docker-compose.public.yml
+copy deploy\docker-compose.public.example.yml docker-compose.public.yml
 notepad docker-compose.public.yml   # 改 APP_BASE_URL、JWT_SECRET、CRON_SECRET
 
 # === 3. Docker ===
@@ -534,6 +534,6 @@ curl.exe -s https://scm.example.com/api/health
 | 文件 | 说明 |
 |------|------|
 | [win11-cloudflare-tunnel-deploy.md](./win11-cloudflare-tunnel-deploy.md) | Tunnel 与运维详解 |
-| [../z-docker-ops.md](../z-docker-ops.md) | 日常改代码、重建、排错 |
-| [../docker-compose.public.example.yml](../docker-compose.public.example.yml) | 公网环境变量模板 |
+| [docs/local-server-release-sop.md](./local-server-release-sop.md) | 日常改代码、重建、排错 |
+| [../deploy/docker-compose.public.example.yml](../deploy/docker-compose.public.example.yml) | 公网环境变量模板 |
 | [../deploy/dedicated-host/cloudflared.config.example.yml](../deploy/dedicated-host/cloudflared.config.example.yml) | cloudflared config 模板 |

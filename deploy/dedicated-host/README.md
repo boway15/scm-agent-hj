@@ -21,13 +21,13 @@
 
 | 文件 | 复制到 |
 |------|--------|
-| `docker-compose.public.example.yml` | `docker-compose.public.yml`（改域名与密钥） |
+| `deploy/docker-compose.public.example.yml` | `docker-compose.public.yml`（改域名与密钥） |
 
 ## 最小路径
 
 ```powershell
 cd D:\scm-agent
-copy docker-compose.public.example.yml docker-compose.public.yml
+copy deploy\docker-compose.public.example.yml docker-compose.public.yml
 # 编辑 docker-compose.public.yml
 
 docker compose -f docker-compose.yml -f docker-compose.public.yml up -d --build
