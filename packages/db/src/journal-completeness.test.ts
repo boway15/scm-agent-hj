@@ -57,16 +57,14 @@ describe('drizzle journal completeness', () => {
     assert.deepEqual(missing, []);
   });
 
-  it('registers SQL files required by current inventory schema', () => {
+  it('registers every numbered drizzle SQL file so migrate cannot skip it', () => {
     const tags = new Set(loadJournal().entries.map((e) => e.tag));
-    for (const tag of [
-      '0095_inventory_data_issues',
-      '0097_inventory_dest_allocations',
-      '0104_demand_plan_weekly_menu_rename',
-      '0105_sku_commercial_status',
-    ]) {
-      assert.ok(tags.has(tag), `${tag} must be in _journal.json so migrate will apply it`);
-    }
+    const numbered = readdirSync(drizzleDir)
+      .filter((name) => /^\d{4}_.+\.sql$/.test(name))
+      .map((name) => name.replace(/\.sql$/, ''))
+      .sort();
+    const missing = numbered.filter((tag) => !tags.has(tag));
+    assert.deepEqual(missing, []);
   });
 
   it('has a SQL file for every journal tag', () => {
