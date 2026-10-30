@@ -565,194 +565,222 @@
     {
       "idx": 80,
       "version": "6",
+      "when": 1787310000000,
+      "tag": "0095_inventory_data_issues",
+      "breakpoints": true
+    },
+    {
+      "idx": 81,
+      "version": "6",
       "when": 1787418600000,
       "tag": "0096_demand_plan",
       "breakpoints": true
     },
     {
-      "idx": 81,
+      "idx": 82,
+      "version": "6",
+      "when": 1787419800000,
+      "tag": "0097_inventory_dest_allocations",
+      "breakpoints": true
+    },
+    {
+      "idx": 83,
       "version": "6",
       "when": 1787421000000,
       "tag": "0098_demand_plan_weekly_adoption",
       "breakpoints": true
     },
     {
-      "idx": 82,
+      "idx": 84,
       "version": "6",
       "when": 1787423400000,
       "tag": "0099_inventory_overview_menu_rename",
       "breakpoints": true
     },
     {
-      "idx": 83,
+      "idx": 85,
       "version": "6",
       "when": 1787425800000,
       "tag": "0100_inventory_menu_sort_order",
       "breakpoints": true
     },
     {
-      "idx": 84,
+      "idx": 86,
       "version": "6",
       "when": 1787428200000,
       "tag": "0101_all_menu_sort_order",
       "breakpoints": true
     },
     {
-      "idx": 85,
+      "idx": 87,
       "version": "6",
       "when": 1787430600000,
       "tag": "0102_shipment_destination_warehouse",
       "breakpoints": true
     },
     {
-      "idx": 86,
+      "idx": 88,
       "version": "6",
       "when": 1787433000000,
       "tag": "0103_drop_layered_forecast",
       "breakpoints": true
     },
     {
-      "idx": 87,
+      "idx": 89,
+      "version": "6",
+      "when": 1787435400000,
+      "tag": "0104_demand_plan_weekly_menu_rename",
+      "breakpoints": true
+    },
+    {
+      "idx": 90,
+      "version": "6",
+      "when": 1787437800000,
+      "tag": "0105_sku_commercial_status",
+      "breakpoints": true
+    },
+    {
+      "idx": 91,
       "version": "6",
       "when": 1787440200000,
       "tag": "0106_drop_inventory_query_date_sku_unique",
       "breakpoints": true
     },
     {
-      "idx": 88,
+      "idx": 92,
       "version": "6",
       "when": 1787442600000,
       "tag": "0107_accessory_product_scope",
       "breakpoints": true
     },
     {
-      "idx": 89,
+      "idx": 93,
       "version": "6",
       "when": 1787445000000,
       "tag": "0108_procurement_ops_snapshots",
       "breakpoints": true
     },
     {
-      "idx": 90,
+      "idx": 94,
       "version": "6",
       "when": 1787447400000,
       "tag": "0109_procurement_ops_menu",
       "breakpoints": true
     },
     {
-      "idx": 91,
+      "idx": 95,
       "version": "6",
       "when": 1787449800000,
       "tag": "0110_procurement_ops_menu_rename_full_chain",
       "breakpoints": true
     },
     {
-      "idx": 92,
+      "idx": 96,
       "version": "6",
       "when": 1787452200000,
       "tag": "0111_warehouse_stock_facts",
       "breakpoints": true
     },
     {
-      "idx": 93,
+      "idx": 97,
       "version": "6",
       "when": 1787454600000,
       "tag": "0112_fob_port_allocation_rules",
       "breakpoints": true
     },
     {
-      "idx": 94,
+      "idx": 98,
       "version": "6",
       "when": 1787457000000,
       "tag": "0113_procurement_follow_up_menu_rename",
       "breakpoints": true
     },
     {
-      "idx": 95,
+      "idx": 99,
       "version": "6",
       "when": 1787459400000,
       "tag": "0114_drop_safety_stock_sku_unique",
       "breakpoints": true
     },
     {
-      "idx": 96,
+      "idx": 100,
       "version": "6",
       "when": 1787462000000,
       "tag": "0115_inventory_probability_menu",
       "breakpoints": true
     },
     {
-      "idx": 97,
+      "idx": 101,
       "version": "6",
       "when": 1787465600000,
       "tag": "0116_inventory_overview_menu_rename",
       "breakpoints": true
     },
     {
-      "idx": 98,
+      "idx": 102,
       "version": "6",
       "when": 1787469200000,
       "tag": "0117_inventory_records_sku_wh_date_idx",
       "breakpoints": true
     },
     {
-      "idx": 99,
+      "idx": 103,
       "version": "6",
       "when": 1787472800000,
       "tag": "0118_inventory_menu_merge",
       "breakpoints": true
     },
     {
-      "idx": 100,
+      "idx": 104,
       "version": "6",
       "when": 1787476400000,
       "tag": "0119_quality_logistics_menus",
       "breakpoints": true
     },
     {
-      "idx": 101,
+      "idx": 105,
       "version": "6",
       "when": 1787480000000,
       "tag": "0120_qc_reinspection",
       "breakpoints": true
     },
     {
-      "idx": 102,
+      "idx": 106,
       "version": "6",
       "when": 1787483600000,
       "tag": "0121_qc_reinspection_synced_at",
       "breakpoints": true
     },
     {
-      "idx": 103,
+      "idx": 107,
       "version": "6",
       "when": 1787487200000,
       "tag": "0122_drop_procurement_costing_menu",
       "breakpoints": true
     },
     {
-      "idx": 104,
+      "idx": 108,
       "version": "6",
       "when": 1787573600000,
       "tag": "0123_rule_param_sets",
       "breakpoints": true
     },
     {
-      "idx": 105,
+      "idx": 109,
       "version": "6",
       "when": 1787573700000,
       "tag": "0124_rule_center_menu",
       "breakpoints": true
     },
     {
-      "idx": 106,
+      "idx": 110,
       "version": "6",
       "when": 1787573800000,
       "tag": "0125_qc_reinspection_transfer_order_no",
       "breakpoints": true
     },
     {
-      "idx": 107,
+      "idx": 111,
       "version": "6",
       "when": 1787660200000,
       "tag": "0126_sku_project_group_middle_segment",

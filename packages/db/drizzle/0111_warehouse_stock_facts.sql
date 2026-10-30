@@ -1,4 +1,17 @@
 -- 分仓库存影子长表 + 数据问题类型扩展
+-- 0095 应先建类型；此处兜底，避免 journal 漏登记时出现 42704（类型不存在）
+DO $$ BEGIN
+  CREATE TYPE "inventory_data_issue_type" AS ENUM (
+    'missing_available_at',
+    'unallocated_warehouse',
+    'share_sum_mismatch',
+    'unmapped_warehouse',
+    'position_source_mismatch',
+    'position_share_gap'
+  );
+EXCEPTION WHEN duplicate_object THEN null;
+END $$;
+--> statement-breakpoint
 ALTER TYPE "inventory_data_issue_type" ADD VALUE IF NOT EXISTS 'unmapped_warehouse';
 --> statement-breakpoint
 ALTER TYPE "inventory_data_issue_type" ADD VALUE IF NOT EXISTS 'position_source_mismatch';
